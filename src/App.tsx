@@ -1135,44 +1135,287 @@ export default function App() {
                     {/* Option B: Build from Source */}
                     <div className="bg-gray-50 rounded-lg p-4">
                       <div className="font-bold text-gray-800 mb-2">Option B: Build Firmware from Source (Recommended for GD303RET6)</div>
-                      <p className="text-sm text-gray-600 mb-2">Build your own firmware with the correct settings for your GD303RET6 chip:</p>
+                      <p className="text-sm text-gray-600 mb-3">Build your own firmware with the exact correct settings for your GD303RET6 chip. Choose your PC's operating system below:</p>
                       
-                      <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-xs overflow-x-auto space-y-1">
-                        <div className="text-gray-500"># Install Git for Windows from https://git-scm.com/download/win</div>
-                        <div className="text-gray-500"># Then open Command Prompt or PowerShell and run:</div>
-                        <div>&nbsp;</div>
-                        <div>git clone https://github.com/Klipper3d/klipper.git</div>
-                        <div>cd klipper</div>
-                        <div>&nbsp;</div>
-                        <div className="text-gray-500"># Install Python 3 from https://www.python.org/downloads/</div>
-                        <div className="text-gray-500"># Then install dependencies:</div>
-                        <div>pip install -r scripts/python_requirements.txt</div>
-                        <div>&nbsp;</div>
-                        <div className="text-gray-500"># Open the firmware configuration menu:</div>
-                        <div>make menuconfig</div>
+                      {/* OS TABS */}
+                      <div className="flex gap-2 mb-4 border-b border-gray-300">
+                        <div className="px-4 py-2 bg-blue-100 text-blue-800 font-bold text-sm rounded-t-lg border-b-2 border-blue-500">🪟 Windows</div>
+                        <div className="px-4 py-2 bg-gray-200 text-gray-600 text-sm rounded-t-lg">🍎 Mac</div>
+                        <div className="px-4 py-2 bg-gray-200 text-gray-600 text-sm rounded-t-lg">🐧 Linux</div>
                       </div>
 
+                      {/* WINDOWS INSTRUCTIONS */}
+                      <div className="bg-white rounded-lg p-4 border border-gray-200 mb-4">
+                        <div className="font-bold text-blue-800 mb-3 flex items-center gap-2">
+                          <span className="text-xl">🪟</span> Windows Instructions (Using WSL)
+                        </div>
+                        <p className="text-sm text-gray-600 mb-3">Klipper requires Linux to build. On Windows, use WSL (Windows Subsystem for Linux):</p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <div className="font-bold text-gray-800 text-sm mb-2">Step B1: Install WSL (One-time setup)</div>
+                            <ol className="list-decimal list-inside text-sm text-gray-700 space-y-2">
+                              <li>
+                                Open <strong>PowerShell as Administrator</strong>:
+                                <div className="text-xs text-gray-500 ml-4">Press Windows key → type "PowerShell" → right-click → "Run as administrator"</div>
+                              </li>
+                              <li>
+                                Run this command:
+                                <div className="bg-gray-900 text-green-400 p-2 rounded mt-1 font-mono text-xs">wsl --install</div>
+                              </li>
+                              <li>Restart your PC when prompted</li>
+                              <li>After restart, Ubuntu will open automatically and ask you to create a username/password</li>
+                              <li>Remember this password — you'll need it for <code className="bg-gray-200 px-1 rounded">sudo</code> commands</li>
+                            </ol>
+                            <div className="bg-blue-50 border border-blue-200 rounded p-2 mt-2">
+                              <p className="text-xs text-blue-800"><strong>💡 Already have WSL?</strong> Skip to Step B2. Check by running <code className="bg-white px-1 rounded">wsl --list</code> in PowerShell.</p>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="font-bold text-gray-800 text-sm mb-2">Step B2: Install Build Dependencies</div>
+                            <p className="text-xs text-gray-600 mb-2">In the Ubuntu/WSL terminal, run these commands one at a time:</p>
+                            <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto space-y-1">
+                              <div className="text-gray-500"># Update package lists</div>
+                              <div>sudo apt update</div>
+                              <div>sudo apt upgrade -y</div>
+                              <div>&nbsp;</div>
+                              <div className="text-gray-500"># Install all required packages (copy-paste this entire block):</div>
+                              <div>sudo apt install -y \</div>
+                              <div>&nbsp;&nbsp;git \</div>
+                              <div>&nbsp;&nbsp;python3 \</div>
+                              <div>&nbsp;&nbsp;python3-pip \</div>
+                              <div>&nbsp;&nbsp;python3-dev \</div>
+                              <div>&nbsp;&nbsp;libncurses-dev \</div>
+                              <div>&nbsp;&nbsp;gcc-arm-none-eabi \</div>
+                              <div>&nbsp;&nbsp;libnewlib-arm-none-eabi \</div>
+                              <div>&nbsp;&nbsp;build-essential \</div>
+                              <div>&nbsp;&nbsp;pkg-config \</div>
+                              <div>&nbsp;&nbsp;libffi-dev \</div>
+                              <div>&nbsp;&nbsp;wget</div>
+                            </div>
+                            <div className="bg-yellow-50 border border-yellow-200 rounded p-2 mt-2">
+                              <p className="text-xs text-yellow-800"><strong>⚠️ Note:</strong> The <code className="bg-white px-1 rounded">gcc-arm-none-eabi</code> package is the ARM cross-compiler — it's critical for building STM32 firmware.</p>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="font-bold text-gray-800 text-sm mb-2">Step B3: Download Klipper Source Code</div>
+                            <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto space-y-1">
+                              <div className="text-gray-500"># Go to your home directory</div>
+                              <div>cd ~</div>
+                              <div>&nbsp;</div>
+                              <div className="text-gray-500"># Clone the Klipper repository</div>
+                              <div>git clone https://github.com/Klipper3d/klipper.git</div>
+                              <div>&nbsp;</div>
+                              <div className="text-gray-500"># Enter the klipper directory</div>
+                              <div>cd klipper</div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="font-bold text-gray-800 text-sm mb-2">Step B4: Configure the Firmware (menuconfig)</div>
+                            <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto">
+                              <div>make menuconfig</div>
+                            </div>
+                            <p className="text-xs text-gray-600 mt-2">A blue configuration screen will appear. Follow the EXACT settings below:</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* MAC INSTRUCTIONS */}
+                      <div className="bg-white rounded-lg p-4 border border-gray-200 mb-4">
+                        <div className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                          <span className="text-xl">🍎</span> Mac Instructions
+                        </div>
+                        <div className="space-y-4">
+                          <div>
+                            <div className="font-bold text-gray-800 text-sm mb-2">Step M1: Install Homebrew (if not installed)</div>
+                            <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto">
+                              <div>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="font-bold text-gray-800 text-sm mb-2">Step M2: Install Build Dependencies</div>
+                            <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto space-y-1">
+                              <div>brew install python3</div>
+                              <div>brew install --cask gcc-arm-embedded</div>
+                              <div>brew install avr-gcc@8</div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="font-bold text-gray-800 text-sm mb-2">Step M3: Download and Configure Klipper</div>
+                            <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto space-y-1">
+                              <div>cd ~</div>
+                              <div>git clone https://github.com/Klipper3d/klipper.git</div>
+                              <div>cd klipper</div>
+                              <div>make menuconfig</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* LINUX INSTRUCTIONS */}
+                      <div className="bg-white rounded-lg p-4 border border-gray-200 mb-4">
+                        <div className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                          <span className="text-xl">🐧</span> Linux Instructions (Ubuntu/Debian)
+                        </div>
+                        <div className="space-y-4">
+                          <div>
+                            <div className="font-bold text-gray-800 text-sm mb-2">Step L1: Install Build Dependencies</div>
+                            <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto space-y-1">
+                              <div>sudo apt update</div>
+                              <div>sudo apt install -y \</div>
+                              <div>&nbsp;&nbsp;git python3 python3-pip python3-dev \</div>
+                              <div>&nbsp;&nbsp;libncurses-dev gcc-arm-none-eabi \</div>
+                              <div>&nbsp;&nbsp;libnewlib-arm-none-eabi build-essential</div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="font-bold text-gray-800 text-sm mb-2">Step L2: Download and Configure Klipper</div>
+                            <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto space-y-1">
+                              <div>cd ~</div>
+                              <div>git clone https://github.com/Klipper3d/klipper.git</div>
+                              <div>cd klipper</div>
+                              <div>make menuconfig</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* SHARED: MENUCONFIG SETTINGS */}
                       <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4 mt-4">
-                        <div className="font-bold text-yellow-900 mb-2">🔧 EXACT menuconfig Settings for CR4NS200320C14 (GD303RET6):</div>
-                        <div className="bg-gray-900 text-white p-3 rounded font-mono text-xs space-y-1">
-                          <div><span className="text-cyan-400">Micro-controller architecture:</span> <span className="text-green-400">STMicroelectronics STM32</span></div>
-                          <div><span className="text-cyan-400">Processor model:</span> <span className="text-green-400">STM32F103</span></div>
-                          <div><span className="text-yellow-400 font-bold">[*] Disable SWD at startup (for GigaDevice stm32f103 clones)</span></div>
-                          <div><span className="text-cyan-400">Bootloader offset:</span> <span className="text-green-400">No bootloader</span></div>
-                          <div><span className="text-cyan-400">Clock Reference:</span> <span className="text-green-400">8 MHz crystal</span></div>
-                          <div><span className="text-cyan-400">Communication interface:</span> <span className="text-green-400">USB (on PA11/PA12)</span></div>
+                        <div className="font-bold text-yellow-900 mb-3 text-lg">🔧 EXACT menuconfig Settings for CR4NS200320C14 (GD303RET6)</div>
+                        <p className="text-sm text-yellow-800 mb-3">When the blue menuconfig screen appears, navigate using arrow keys and set these EXACT values:</p>
+                        
+                        <div className="bg-gray-900 text-white p-4 rounded font-mono text-sm space-y-2">
+                          <div className="flex justify-between border-b border-gray-700 pb-1">
+                            <span className="text-cyan-400">Micro-controller architecture:</span>
+                            <span className="text-green-400 font-bold">STMicroelectronics STM32</span>
+                          </div>
+                          <div className="flex justify-between border-b border-gray-700 pb-1">
+                            <span className="text-cyan-400">Processor model:</span>
+                            <span className="text-green-400 font-bold">STM32F103</span>
+                          </div>
+                          <div className="flex justify-between border-b border-gray-700 pb-1 bg-yellow-900/30">
+                            <span className="text-yellow-300">⚠️ Disable SWD at startup:</span>
+                            <span className="text-yellow-300 font-bold">[*] ENABLED ← CRITICAL!</span>
+                          </div>
+                          <div className="flex justify-between border-b border-gray-700 pb-1">
+                            <span className="text-cyan-400">Bootloader offset:</span>
+                            <span className="text-green-400 font-bold">No bootloader</span>
+                          </div>
+                          <div className="flex justify-between border-b border-gray-700 pb-1">
+                            <span className="text-cyan-400">Clock Reference:</span>
+                            <span className="text-green-400 font-bold">8 MHz crystal</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-cyan-400">Communication interface:</span>
+                            <span className="text-green-400 font-bold">USB (on PA11/PA12)</span>
+                          </div>
                         </div>
-                        <div className="text-xs text-yellow-800 mt-2">
-                          <strong>Navigation:</strong> Use arrow keys to move, Space to select/deselect, Enter to confirm, Q to quit (then Y to save)
+
+                        <div className="mt-4 bg-white rounded p-3 border border-yellow-300">
+                          <div className="font-bold text-yellow-900 text-sm mb-2">📋 How to Navigate menuconfig:</div>
+                          <ul className="text-xs text-yellow-900 space-y-1 list-disc list-inside">
+                            <li><strong>Arrow keys</strong> — move up/down between options</li>
+                            <li><strong>Enter</strong> — select an option or open a submenu</li>
+                            <li><strong>Space bar</strong> — toggle checkboxes (like "Disable SWD at startup")</li>
+                            <li><strong>Escape</strong> — go back / exit menus</li>
+                            <li><strong>Q</strong> — quit (will ask to save — press <strong>Y</strong> for yes)</li>
+                            <li><strong>/</strong> — search for an option by name</li>
+                          </ul>
+                        </div>
+
+                        <div className="mt-4 bg-red-50 border border-red-300 rounded p-3">
+                          <div className="font-bold text-red-900 text-sm mb-2">🚨 CRITICAL: "Disable SWD at startup" Setting</div>
+                          <p className="text-xs text-red-800">
+                            This setting is <strong>MANDATORY</strong> for your GD303RET6 chip! If you forget to enable it, the firmware will not work correctly after the first boot. To find it:
+                          </p>
+                          <ol className="text-xs text-red-800 list-decimal list-inside mt-2 space-y-1">
+                            <li>In menuconfig, scroll down until you see the STM32 options</li>
+                            <li>Look for <code className="bg-white px-1 rounded">[*] Disable SWD at startup (for GigaDevice stm32f103 clones)</code></li>
+                            <li>Press <strong>Space</strong> to put an <code className="bg-white px-1 rounded">X</code> in the brackets: <code className="bg-white px-1 rounded">[X]</code></li>
+                            <li>If you can't find it, press <code className="bg-white px-1 rounded">/</code> and type "SWD" to search</li>
+                          </ol>
                         </div>
                       </div>
 
-                      <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-xs overflow-x-auto space-y-1 mt-4">
-                        <div className="text-gray-500"># After saving the config, compile the firmware:</div>
-                        <div>make</div>
-                        <div>&nbsp;</div>
-                        <div className="text-gray-500"># The compiled firmware will be at:</div>
-                        <div className="text-gray-500"># klipper/out/klipper.bin</div>
+                      {/* COMPILE FIRMWARE */}
+                      <div className="bg-white rounded-lg p-4 border border-gray-200 mt-4">
+                        <div className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                          <span className="text-xl">⚙️</span> Step 5: Compile the Firmware
+                        </div>
+                        <p className="text-sm text-gray-600 mb-3">After saving menuconfig, compile the firmware:</p>
+                        <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto space-y-1">
+                          <div className="text-gray-500"># Compile the firmware (this takes 1-3 minutes)</div>
+                          <div>make</div>
+                          <div>&nbsp;</div>
+                          <div className="text-gray-500"># You should see output like:</div>
+                          <div className="text-gray-500"># Creating out/klipper.bin</div>
+                          <div className="text-gray-500"># Creating out/klipper.elf</div>
+                        </div>
+
+                        <div className="bg-green-50 border border-green-300 rounded p-3 mt-3">
+                          <div className="font-bold text-green-900 text-sm mb-2">✅ Verify the Build Succeeded</div>
+                          <p className="text-xs text-green-800 mb-2">Check that the firmware file was created:</p>
+                          <div className="bg-gray-900 text-green-400 p-2 rounded font-mono text-xs">
+                            <div>ls -la out/klipper.bin</div>
+                          </div>
+                          <p className="text-xs text-green-800 mt-2">You should see a file around <strong>25-35 KB</strong> in size. If the file doesn't exist or <code className="bg-white px-1 rounded">make</code> showed errors, check the troubleshooting section below.</p>
+                        </div>
+                      </div>
+
+                      {/* GET THE FILE TO YOUR PC */}
+                      <div className="bg-white rounded-lg p-4 border border-gray-200 mt-4">
+                        <div className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                          <span className="text-xl">📁</span> Step 6: Get klipper.bin to Windows (WSL Users)
+                        </div>
+                        <p className="text-sm text-gray-600 mb-3">If you built in WSL, the file is inside Linux. Copy it to Windows:</p>
+                        <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-xs overflow-x-auto space-y-1">
+                          <div className="text-gray-500"># In WSL, copy the file to your Windows Desktop:</div>
+                          <div>cp out/klipper.bin /mnt/c/Users/$USER/Desktop/</div>
+                          <div>&nbsp;</div>
+                          <div className="text-gray-500"># Or to your Downloads folder:</div>
+                          <div>cp out/klipper.bin /mnt/c/Users/$USER/Downloads/</div>
+                        </div>
+                        <p className="text-xs text-gray-600 mt-2">The file will now appear on your Windows Desktop/Downloads and you can use it with STM32CubeProgrammer.</p>
+                      </div>
+
+                      {/* TROUBLESHOOTING */}
+                      <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-4">
+                        <div className="font-bold text-red-800 mb-2 flex items-center gap-2">
+                          <span className="text-xl">🔧</span> Build Troubleshooting
+                        </div>
+                        <div className="space-y-3 text-sm">
+                          <div>
+                            <div className="font-bold text-red-900">❌ "make: command not found"</div>
+                            <div className="text-xs text-red-800 ml-4">Install build-essential: <code className="bg-white px-1 rounded">sudo apt install build-essential</code></div>
+                          </div>
+                          <div>
+                            <div className="font-bold text-red-900">❌ "arm-none-eabi-gcc: not found"</div>
+                            <div className="text-xs text-red-800 ml-4">Install ARM compiler: <code className="bg-white px-1 rounded">sudo apt install gcc-arm-none-eabi</code></div>
+                          </div>
+                          <div>
+                            <div className="font-bold text-red-900">❌ "python3: not found"</div>
+                            <div className="text-xs text-red-800 ml-4">Install Python: <code className="bg-white px-1 rounded">sudo apt install python3</code></div>
+                          </div>
+                          <div>
+                            <div className="font-bold text-red-900">❌ menuconfig shows blank screen or errors</div>
+                            <div className="text-xs text-red-800 ml-4">Install ncurses: <code className="bg-white px-1 rounded">sudo apt install libncurses-dev</code></div>
+                          </div>
+                          <div>
+                            <div className="font-bold text-red-900">❌ "make: *** No rule to make target" error</div>
+                            <div className="text-xs text-red-800 ml-4">Run <code className="bg-white px-1 rounded">make clean</code> then <code className="bg-white px-1 rounded">make menuconfig</code> again, then <code className="bg-white px-1 rounded">make</code></div>
+                          </div>
+                          <div>
+                            <div className="font-bold text-red-900">❌ Compilation completes but no klipper.bin</div>
+                            <div className="text-xs text-red-800 ml-4">Check <code className="bg-white px-1 rounded">ls out/</code> — you might see klipper.elf instead. Run <code className="bg-white px-1 rounded">make clean</code> and rebuild.</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
