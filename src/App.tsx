@@ -102,6 +102,43 @@ function PinDiagram() {
   );
 }
 
+function DeviceSpecs() {
+  return (
+    <div className="my-6 bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-xl border border-gray-200">
+      <h4 className="font-bold text-gray-800 mb-4 text-center">Samsung Galaxy Tab A 10.5 (SM-T395) Specs</h4>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div className="bg-white p-3 rounded-lg shadow-sm">
+          <div className="text-2xl mb-1">⚡</div>
+          <div className="text-xs text-gray-500">Processor</div>
+          <div className="text-sm font-bold text-gray-800">Snapdragon 450</div>
+          <div className="text-xs text-gray-500">Octa-core 1.8GHz</div>
+        </div>
+        <div className="bg-white p-3 rounded-lg shadow-sm">
+          <div className="text-2xl mb-1">🧠</div>
+          <div className="text-xs text-gray-500">RAM</div>
+          <div className="text-sm font-bold text-gray-800">3 GB</div>
+          <div className="text-xs text-gray-500">LPDDR4</div>
+        </div>
+        <div className="bg-white p-3 rounded-lg shadow-sm">
+          <div className="text-2xl mb-1">💾</div>
+          <div className="text-xs text-gray-500">Storage</div>
+          <div className="text-sm font-bold text-gray-800">32 GB</div>
+          <div className="text-xs text-gray-500">+ microSD</div>
+        </div>
+        <div className="bg-white p-3 rounded-lg shadow-sm">
+          <div className="text-2xl mb-1">🔋</div>
+          <div className="text-xs text-gray-500">Battery</div>
+          <div className="text-sm font-bold text-gray-800">6000 mAh</div>
+          <div className="text-xs text-gray-500">Micro USB</div>
+        </div>
+      </div>
+      <div className="mt-4 text-center text-sm text-gray-600">
+        <strong>Android:</strong> 8.1 Oreo → upgradable to Android 10 &nbsp;|&nbsp; <strong>Display:</strong> 10.1" 1920×1200 TFT
+      </div>
+    </div>
+  );
+}
+
 const steps: Step[] = [
   {
     id: 1,
@@ -111,21 +148,19 @@ const steps: Step[] = [
       <div className="space-y-4">
         <p className="text-gray-700">Before starting, make sure you have all the required hardware and software ready.</p>
         
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Your Klipper Host: Samsung Galaxy Tab A 10.5 (SM-T395)</h3>
+        <DeviceSpecs />
+
         <h3 className="font-bold text-lg text-gray-800 mt-6">Required Hardware</h3>
         <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <li><strong>Samsung Galaxy Tab A 10.5 (SM-T395)</strong> — your Klipper host</li>
           <li><strong>ST-Link V2</strong> programmer (clone versions work fine, ~$3-5)</li>
-          <li><strong>Raspberry Pi</strong> (3B+, 4, or 5) — or any Debian-based Linux system</li>
-          <li><strong>MicroSD card</strong> (8GB+, for Raspberry Pi OS)</li>
-          <li><strong>USB cable</strong> (USB-A to USB-B/C for connecting Pi to printer)</li>
-          <li><strong>Jumper wires</strong> (female-to-female, 4-5 wires needed)</li>
+          <li><strong>USB OTG adapter</strong> (microUSB to USB-A female) — for connecting ST-Link & printer</li>
+          <li><strong>OTG + Charge cable</strong> or <strong>powered USB hub</strong> (see Step 2 for details)</li>
+          <li><strong>MicroSD card</strong> (for initial firmware flash to printer, if needed)</li>
+          <li><strong>USB cable</strong> (USB-A to USB-B/C for connecting printer to tablet)</li>
+          <li><strong>Jumper wires</strong> (female-to-female, 4-5 wires for ST-Link)</li>
           <li><strong>Ender 3 V3 SE</strong> 3D printer</li>
-        </ul>
-
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Required Software</h3>
-        <ul className="list-disc list-inside space-y-2 text-gray-700">
-          <li><strong>STM32CubeProgrammer</strong> (for flashing via ST-Link) — or OpenOCD on Linux</li>
-          <li><strong>KIAUH</strong> (Klipper Installation And Update Helper)</li>
-          <li><strong>MainsailOS</strong> or <strong>FluiddPi</strong> for the Raspberry Pi</li>
         </ul>
 
         <Warning>
@@ -133,43 +168,200 @@ const steps: Step[] = [
         </Warning>
 
         <Info>
-          <strong>Why use ST-Link V2?</strong> The ST-Link V2 connects via SWD (Serial Wire Debug) pins directly to the MCU. This is the most reliable method to flash firmware, especially when the SD card method fails or when you need to flash a custom bootloader (like CanBoot/Katapult) for future wireless updates.
+          <strong>Why use the Galaxy Tab as host?</strong> The SM-T395 has a 1.8GHz octa-core processor and 3GB RAM — more than enough to run Klipper. Plus, you get a built-in touchscreen display for KlipperScreen, WiFi, and a large battery for UPS-like behavior during power outages.
         </Info>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Required Software (on the tablet)</h3>
+        <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <li><strong>BeamKlipper</strong> app (easiest method — no root required)</li>
+          <li>OR <strong>Termux</strong> + proot-distro (advanced method — more flexible)</li>
+          <li>A file manager app (for managing config files)</li>
+        </ul>
       </div>
     ),
   },
   {
     id: 2,
-    title: "Set Up Raspberry Pi (Klipper Host)",
-    icon: "🍓",
+    title: "Prepare the Tablet (OTG + Charging)",
+    icon: "🔌",
     content: (
       <div className="space-y-4">
-        <p className="text-gray-700">First, set up your Raspberry Pi as the Klipper host computer.</p>
+        <p className="text-gray-700">The SM-T395 has a single <strong>microUSB</strong> port. You need to use it for both OTG (connecting to the printer/ST-Link) AND charging simultaneously. This requires a special setup.</p>
 
-        <h3 className="font-bold text-lg text-gray-800">Option A: Flash MainsailOS (Recommended)</h3>
+        <Warning>
+          <strong>CRITICAL:</strong> The SM-T395 does NOT natively support OTG + charging at the same time through a simple adapter. You need one of the solutions below.
+        </Warning>
+
+        <h3 className="font-bold text-lg text-gray-800">Solution A: Powered USB Hub (Recommended)</h3>
+        <p className="text-gray-700">Use a powered microUSB OTG hub that supports simultaneous charging:</p>
+        <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <li>Purchase a <strong>microUSB OTG hub with charging port</strong> (search "micro USB OTG charging adapter" on Amazon/AliExpress)</li>
+          <li>These have a microUSB female for charging + USB-A ports for peripherals</li>
+          <li>Connect the hub to your tablet, plug in the charger, then connect printer/ST-Link to the USB-A ports</li>
+        </ul>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Solution B: Custom OTG+Charge Cable (DIY)</h3>
+        <p className="text-gray-700">Build a cable that connects the ID pin to ground (enables OTG) while allowing power through:</p>
+        <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <li>You need a microUSB cable, a <strong>resistor (typically 10kΩ)</strong>, and some soldering</li>
+          <li>Connect the ID pin (pin 4) to GND through the resistor inside the microUSB connector</li>
+          <li>This tells the tablet to enable OTG mode while still accepting charge</li>
+        </ul>
+        <Info>
+          The exact resistor value varies by device. For the SM-T395, try values between <strong>1kΩ and 100kΩ</strong>. Start with 10kΩ. You may need to experiment to find the right value that allows both OTG and charging.
+        </Info>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Solution C: USB-C Hub via Adapter (if available)</h3>
+        <p className="text-gray-700">If you have a microUSB to USB-C adapter that supports OTG passthrough, you can use a standard USB-C hub with Power Delivery passthrough.</p>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Tablet Settings to Configure</h3>
         <ol className="list-decimal list-inside space-y-2 text-gray-700">
-          <li>Download <strong>MainsailOS</strong> from the official GitHub releases</li>
-          <li>Flash it to your MicroSD card using <strong>Raspberry Pi Imager</strong> or <strong>Balena Etcher</strong></li>
-          <li>Before booting, create a <code className="bg-gray-100 px-1 rounded">wpa_supplicant.conf</code> file in the boot partition with your WiFi credentials</li>
-          <li>Insert the SD card into the Pi and power it on</li>
-          <li>Find the Pi's IP address from your router</li>
+          <li>Go to <strong>Settings → Developer Options</strong> (enable by tapping Build Number 7 times)</li>
+          <li>Enable <strong>USB Debugging</strong></li>
+          <li>Set <strong>Stay Awake</strong> (screen won't sleep while charging)</li>
+          <li>Disable <strong>Battery Optimization</strong> for BeamKlipper (Settings → Apps → BeamKlipper → Battery → Don't optimize)</li>
+          <li>Disable any <strong>aggressive sleep/doze</strong> modes</li>
         </ol>
 
-        <CodeBlock>{`# wpa_supplicant.conf content
-country=US
-ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-network={
-    ssid="YourWiFiName"
-    psk="YourWiFiPassword"
-}`}</CodeBlock>
+        <Tip>
+          <strong>Pro tip:</strong> Run this in a terminal app (like Termux) to prevent Android from killing background processes:
+          <code className="block bg-gray-100 p-2 mt-2 rounded text-sm">dumpsys deviceidle disable</code>
+          Also install a "Wake Lock" app from the Play Store to keep the CPU awake during prints.
+        </Tip>
+      </div>
+    ),
+  },
+  {
+    id: 3,
+    title: "Install BeamKlipper (Easiest Method)",
+    icon: "📱",
+    content: (
+      <div className="space-y-4">
+        <p className="text-gray-700"><strong>BeamKlipper</strong> is the easiest way to run Klipper on Android. It requires <strong>no root</strong>, runs as a regular app, and bundles Klipper + Moonraker + Fluidd/Mainsail all in one package.</p>
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Option B: Install via KIAUH (Manual)</h3>
-        <p className="text-gray-700">If you prefer a clean Debian/Raspberry Pi OS install:</p>
-        <CodeBlock>{`# SSH into your Pi
-ssh pi@<your-pi-ip>
+        <Info>
+          <strong>BeamKlipper requirements:</strong> Android 5.0+ with OTG support. Your SM-T395 runs Android 10 — perfect!
+        </Info>
 
-# Install KIAUH
+        <h3 className="font-bold text-lg text-gray-800">Step-by-Step Installation</h3>
+        <ol className="list-decimal list-inside space-y-3 text-gray-700">
+          <li>
+            <strong>Download BeamKlipper APK</strong>
+            <br />
+            <span className="text-sm text-gray-500">Go to <a href="https://github.com/utkabobr/BeamKlipper/releases/latest" className="text-blue-600 hover:underline" target="_blank" rel="noopener">github.com/utkabobr/BeamKlipper/releases</a> and download the latest APK</span>
+          </li>
+          <li>
+            <strong>Install the APK</strong>
+            <br />
+            <span className="text-sm text-gray-500">You may need to enable "Install from Unknown Sources" in Settings → Security</span>
+          </li>
+          <li>
+            <strong>Open BeamKlipper and grant permissions</strong>
+            <br />
+            <span className="text-sm text-gray-500">Allow USB access, storage, notifications, and background activity</span>
+          </li>
+          <li>
+            <strong>Add a printer instance</strong>
+            <br />
+            <span className="text-sm text-gray-500">Click "Add Printer" and select a config file. For Ender 3 V3 SE, use a community config or generic template</span>
+          </li>
+          <li>
+            <strong>Download the firmware for your printer</strong>
+            <br />
+            <span className="text-sm text-gray-500">Get the prebuilt firmware.bin from <a href="https://github.com/utkabobr/klipper/tree/prebuilt-v0.12.0" className="text-blue-600 hover:underline" target="_blank" rel="noopener">utkabobr/klipper prebuilt</a> or build your own (see Step 5)</span>
+          </li>
+          <li>
+            <strong>Connect your printer via USB OTG</strong>
+            <br />
+            <span className="text-sm text-gray-500">Plug the printer's USB cable into the OTG adapter/hub connected to your tablet</span>
+          </li>
+          <li>
+            <strong>Click "Start" in BeamKlipper</strong>
+            <br />
+            <span className="text-sm text-gray-500">The app will start Klipper, Moonraker, and the web interface</span>
+          </li>
+          <li>
+            <strong>Access the web interface</strong>
+            <br />
+            <span className="text-sm text-gray-500">Open a browser on any device and go to <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8888/</code></span>
+          </li>
+        </ol>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">What's Included in BeamKlipper</h3>
+        <div className="grid grid-cols-2 gap-3 mt-3">
+          <div className="bg-blue-50 p-3 rounded-lg text-sm">
+            <strong className="text-blue-800">Klipper</strong>
+            <p className="text-blue-600 text-xs mt-1">Firmware host (Klippy)</p>
+          </div>
+          <div className="bg-purple-50 p-3 rounded-lg text-sm">
+            <strong className="text-purple-800">Moonraker</strong>
+            <p className="text-purple-600 text-xs mt-1">API web server</p>
+          </div>
+          <div className="bg-green-50 p-3 rounded-lg text-sm">
+            <strong className="text-green-800">Fluidd</strong>
+            <p className="text-green-600 text-xs mt-1">Web interface</p>
+          </div>
+          <div className="bg-orange-50 p-3 rounded-lg text-sm">
+            <strong className="text-orange-800">Mainsail</strong>
+            <p className="text-orange-600 text-xs mt-1">Alternative web UI</p>
+          </div>
+        </div>
+
+        <Tip>
+          <strong>Web interface URLs:</strong>
+          <br />• Fluidd/Mainsail: <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8888/</code>
+          <br />• Camera stream: <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8889/</code>
+        </Tip>
+
+        <Warning>
+          <strong>Important limitation:</strong> BeamKlipper cannot build firmware on the device (no SSH/terminal access). You must flash the printer firmware separately using the ST-Link V2 method (Step 5) or SD card method. BeamKlipper only runs the Klipper host software.
+        </Warning>
+      </div>
+    ),
+  },
+  {
+    id: 4,
+    title: "Alternative: Termux + proot-distro (Advanced)",
+    icon: "🐧",
+    content: (
+      <div className="space-y-4">
+        <p className="text-gray-700">If you want more control (ability to build firmware, SSH access, custom services), use Termux with a Linux proot environment.</p>
+
+        <Warning>
+          <strong>This method is more complex</strong> and requires more technical knowledge. Only use this if BeamKlipper doesn't meet your needs.
+        </Warning>
+
+        <h3 className="font-bold text-lg text-gray-800">Install Required Apps</h3>
+        <ol className="list-decimal list-inside space-y-2 text-gray-700">
+          <li><strong>Termux</strong> — install from <a href="https://f-droid.org/packages/com.termux/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">F-Droid</a> (NOT Play Store — that version is outdated)</li>
+          <li><strong>Termux:API</strong> — from F-Droid (for hardware access)</li>
+          <li><strong>Termux:Boot</strong> — from F-Droid (for autostart)</li>
+          <li><strong>XServer XSDL</strong> — from Play Store (for KlipperScreen GUI)</li>
+        </ol>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Set Up proot-distro (Linux Environment)</h3>
+        <CodeBlock>{`# Update Termux
+pkg update && pkg upgrade
+
+# Install proot-distro
+pkg install proot-distro
+
+# Install Debian
+proot-distro install debian
+
+# Login to Debian
+proot-distro login debian
+
+# Inside Debian:
+apt update && apt upgrade -y
+apt install git sudo python3 python3-pip \
+  virtualenv libconfig-dev libdbus-1-dev \
+  libegl-dev libgl-dev libxcb-dev \
+  libwayland-dev wayland-protocols \
+  cmake build-essential nginx -y`}</CodeBlock>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Install Klipper via KIAUH</h3>
+        <CodeBlock>{`# Clone KIAUH
 cd ~
 git clone https://github.com/dw-0/KIAUH.git
 
@@ -177,122 +369,45 @@ git clone https://github.com/dw-0/KIAUH.git
 cd KIAUH
 ./kiauh.sh
 
-# From the KIAUH menu, install:
+# From the menu install:
 # 1. Klipper
-# 2. Moonraker
-# 3. Mainsail (or Fluidd)`}</CodeBlock>
+# 2. Moonraker  
+# 3. Mainsail (or Fluidd)
+# 4. KlipperScreen (optional - needs X11)`}</CodeBlock>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Configure USB Serial Access</h3>
+        <p className="text-gray-700">To access the printer via USB from within proot, you need to bind-mount the USB device:</p>
+        <CodeBlock>{`# Exit debian first, then in Termux:
+# Find your printer's USB device
+ls /dev/bus/usb/*
+
+# Login to debian with USB access:
+proot-distro login debian --bind /dev/bus/usb:/dev/bus/usb
+
+# Inside debian, check for the printer:
+ls /dev/ttyUSB* /dev/ttyACM* 2>/dev/null`}</CodeBlock>
 
         <Tip>
-          MainsailOS comes with everything pre-configured. If you're new to this, use Option A to save time.
+          <strong>For KlipperScreen:</strong> Start XServer XSDL first, then set the DISPLAY variable:
+          <code className="block bg-gray-100 p-2 mt-2 rounded text-sm">export DISPLAY=localhost:0</code>
+          Then launch KlipperScreen. It will render on the XServer display.
         </Tip>
-      </div>
-    ),
-  },
-  {
-    id: 3,
-    title: "Locate SWD Pins on the Board",
-    icon: "🔌",
-    content: (
-      <div className="space-y-4">
-        <p className="text-gray-700">You need to find the SWD debug pins on your Ender 3 V3 SE mainboard to connect the ST-Link V2.</p>
 
-        <Warning>
-          <strong>SAFETY FIRST:</strong> Disconnect the printer from ALL power sources before working on the mainboard. Remove any connected cables.
-        </Warning>
-
-        <h3 className="font-bold text-lg text-gray-800">Finding the SWD Header</h3>
-        <p className="text-gray-700">On the Ender 3 V3 SE board (CR4NS200320C13), the SWD pins are typically located:</p>
-        <ul className="list-disc list-inside space-y-2 text-gray-700">
-          <li>Near the <strong>STM32F103</strong> chip (the large square IC)</li>
-          <li>Look for a small <strong>4-pin or 5-pin header</strong> labeled "SWD", "DEBUG", or "JTAG"</li>
-          <li>Some boards have <strong>test pads</strong> instead of a header — you may need to solder pins</li>
-          <li>The pins should be labeled: <strong>SWDIO</strong>, <strong>SWCLK</strong>, <strong>GND</strong>, and <strong>3.3V</strong></li>
-        </ul>
-
-        <PinDiagram />
-
-        <h3 className="font-bold text-lg text-gray-800">Connection Table</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse border border-gray-300 rounded-lg overflow-hidden">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="border border-gray-300 px-4 py-2 text-left">ST-Link V2 Pin</th>
-                <th className="border border-gray-300 px-4 py-2 text-left">Board Pin</th>
-                <th className="border border-gray-300 px-4 py-2 text-left">Wire Color (suggested)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="bg-white"><td className="border border-gray-300 px-4 py-2">3.3V (Pin 1)</td><td className="border border-gray-300 px-4 py-2">3.3V</td><td className="border border-gray-300 px-4 py-2">🔴 Red</td></tr>
-              <tr className="bg-gray-50"><td className="border border-gray-300 px-4 py-2">SWDIO (Pin 2)</td><td className="border border-gray-300 px-4 py-2">SWDIO</td><td className="border border-gray-300 px-4 py-2">🟠 Orange</td></tr>
-              <tr className="bg-white"><td className="border border-gray-300 px-4 py-2">GND (Pin 3)</td><td className="border border-gray-300 px-4 py-2">GND</td><td className="border border-gray-300 px-4 py-2">⚫ Black</td></tr>
-              <tr className="bg-gray-50"><td className="border border-gray-300 px-4 py-2">SWCLK (Pin 4)</td><td className="border border-gray-300 px-4 py-2">SWCLK</td><td className="border border-gray-300 px-4 py-2">🟡 Yellow</td></tr>
-              <tr className="bg-white"><td className="border border-gray-300 px-4 py-2">NRST (Pin 5)</td><td className="border border-gray-300 px-4 py-2">NRST</td><td className="border border-gray-300 px-4 py-2">🟣 Purple (optional)</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <Warning>
-          <strong>DO NOT connect the 5V pin!</strong> The STM32F103 operates at 3.3V. Connecting 5V will damage the chip. Only use the 3.3V pin from the ST-Link for reference — you can also power the board from the printer's own power supply.
-        </Warning>
-
-        <Tip>
-          If your board doesn't have a labeled SWD header, look for the STM32F103 datasheet pinout. SWDIO is typically on pin PA13 and SWCLK on PA14. You may find small test pads near the chip.
-        </Tip>
-      </div>
-    ),
-  },
-  {
-    id: 4,
-    title: "Compile Klipper Firmware",
-    icon: "⚙️",
-    content: (
-      <div className="space-y-4">
-        <p className="text-gray-700">SSH into your Raspberry Pi and compile the Klipper firmware for the Ender 3 V3 SE.</p>
-
-        <CodeBlock>{`# SSH into your Raspberry Pi
-ssh pi@<your-pi-ip>
-
-# Navigate to the Klipper directory
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Building Firmware (Advantage over BeamKlipper)</h3>
+        <CodeBlock>{`# Inside the Debian proot environment:
 cd ~/klipper
+make menuconfig
 
-# Open the firmware configuration menu
-make menuconfig`}</CodeBlock>
+# Configure for Ender 3 V3 SE:
+# - Micro-controller: STMicroelectronics STM32
+# - Processor: STM32F103
+# - Bootloader: No bootloader (for ST-Link flash)
+# - Communication: USB on PA11/PA12
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Configuration Settings</h3>
-        <p className="text-gray-700 mb-3">Set the following options in <code className="bg-gray-100 px-1 rounded">make menuconfig</code>:</p>
-
-        <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm space-y-1">
-          <div className="text-cyan-400"># For STM32F103 variant:</div>
-          <div>Micro-controller architecture: <span className="text-green-400">STMicroelectronics STM32</span></div>
-          <div>Processor model: <span className="text-green-400">STM32F103</span></div>
-          <div>Bootloader offset: <span className="text-green-400">28KiB bootloader</span></div>
-          <div>Communication interface: <span className="text-green-400">Serial (on USART1 PA10/PA9)</span></div>
-        </div>
-
-        <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm space-y-1 mt-4">
-          <div className="text-cyan-400"># For GD32F303RET6 variant (GigaDevice clone):</div>
-          <div>Micro-controller architecture: <span className="text-green-400">STMicroelectronics STM32</span></div>
-          <div>Processor model: <span className="text-green-400">STM32F103</span></div>
-          <div><span className="text-yellow-400">[*] Disable SWD at startup (for GigaDevice stm32f103 clones)</span></div>
-          <div>Bootloader offset: <span className="text-green-400">28KiB bootloader</span></div>
-          <div>Communication interface: <span className="text-green-400">Serial (on USART1 PA10/PA9)</span></div>
-        </div>
-
-        <Warning>
-          <strong>Important:</strong> If you're using ST-Link V2 to flash directly (without the 28KiB bootloader), select <strong>"No bootloader"</strong> instead. The 28KiB bootloader option is for SD card flashing. For direct ST-Link flashing, use "No bootloader" or flash a bootloader first (see Step 5).
-        </Warning>
-
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Build the Firmware</h3>
-        <CodeBlock>{`# Exit menuconfig (save with 'Y')
-# Then compile:
 make
 
-# The compiled firmware will be at:
-# ~/klipper/out/klipper.bin`}</CodeBlock>
-
-        <Info>
-          If you get compilation errors, run <code className="bg-gray-100 px-1 rounded">make clean</code> first, then <code className="bg-gray-100 px-1 rounded">make menuconfig</code> again and rebuild.
-        </Info>
+# The compiled firmware will be at ~/klipper/out/klipper.bin
+# Copy it to your tablet's storage for ST-Link flashing`}</CodeBlock>
       </div>
     ),
   },
@@ -302,90 +417,64 @@ make
     icon: "🔧",
     content: (
       <div className="space-y-4">
-        <p className="text-gray-700">Now flash the compiled Klipper firmware directly to the MCU using the ST-Link V2.</p>
+        <p className="text-gray-700">Now flash the Klipper firmware to your Ender 3 V3 SE's mainboard using the ST-Link V2. Since your tablet can't run STM32CubeProgrammer natively, you have two options:</p>
 
-        <Warning>
-          <strong>Before flashing:</strong> Ensure the ST-Link V2 is connected to the board's SWD pins AND the board is powered (either from the printer's PSU or the ST-Link's 3.3V). Double-check all connections.
-        </Warning>
-
-        <h3 className="font-bold text-lg text-gray-800">Method A: Using OpenOCD (Linux/Raspberry Pi)</h3>
-        <p className="text-gray-700">This is the recommended method if you're using a Raspberry Pi or Linux computer.</p>
-
-        <CodeBlock>{`# Install OpenOCD
-sudo apt update
-sudo apt install openocd
-
-# Connect ST-Link V2 to your Pi via USB
-# Verify it's detected:
-lsusb
-# You should see something like: "STMicroelectronics ST-LINK/V2"`}</CodeBlock>
-
-        <p className="text-gray-700 mt-4">Create an OpenOCD configuration file:</p>
-        <CodeBlock language="cfg">{`# Create file: ~/openocd_stlink.cfg
-
-# ST-Link V2 interface
-source [find interface/stlink.cfg]
-transport select hla_swd
-
-# STM32F103 target
-source [find target/stm32f1x.cfg]
-
-# Adapter speed
-adapter speed 4000
-
-# Reset config
-reset_config srst_only`}</CodeBlock>
-
-        <CodeBlock>{`# Flash the firmware using OpenOCD
-sudo openocd -f ~/openocd_stlink.cfg -c "program ~/klipper/out/klipper.bin verify reset exit 0x08000000"`}</CodeBlock>
-
-        <p className="text-gray-700 mt-4">If you want to flash a bootloader first (recommended for future SD card updates):</p>
-        <CodeBlock>{`# First, backup existing firmware (optional but recommended)
-sudo openocd -f ~/openocd_stlink.cfg -c "init; halt; dump_image backup.bin 0x08000000 0x40000; exit"
-
-# Flash the HID bootloader (for future USB updates)
-# Download the bootloader first:
-cd ~/klipper
-git clone https://github.com/Serasidis/STM32_HID_Bootloader.git
-
-# Flash it at address 0x08000000
-sudo openocd -f ~/openocd_stlink.cfg -c "init; halt; stm32f1x mass_erase 0; program STM32_HID_Bootloader/binaries/hid_generic_pc13.bin verify 0x08000000; exit"
-
-# Then flash klipper at offset 0x08007000 (28KiB = 0x7000 offset)
-sudo openocd -f ~/openocd_stlink.cfg -c "program ~/klipper/out/klipper.bin verify reset exit 0x08007000"`}</CodeBlock>
-
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Method B: Using STM32CubeProgrammer (Windows/Mac/Linux)</h3>
+        <h3 className="font-bold text-lg text-gray-800">Option A: Flash from a PC (Recommended for first time)</h3>
+        <p className="text-gray-700">Use a Windows/Mac/Linux computer with STM32CubeProgrammer for the initial flash:</p>
         <ol className="list-decimal list-inside space-y-2 text-gray-700">
-          <li>Download and install <strong>STM32CubeProgrammer</strong> from ST's website</li>
-          <li>Connect the ST-Link V2 to your computer via USB</li>
-          <li>Connect the ST-Link V2 to the board's SWD pins</li>
-          <li>Power the board (from printer PSU or ST-Link 3.3V)</li>
-          <li>Open STM32CubeProgrammer</li>
-          <li>On the right panel, select <strong>"ST-LINK"</strong> as connection type</li>
-          <li>Click <strong>"Connect"</strong></li>
-          <li>Go to the <strong>"Erasing & Programming"</strong> tab</li>
-          <li>Browse to your <code className="bg-gray-100 px-1 rounded">klipper.bin</code> file</li>
-          <li>Set start address to <strong>0x08000000</strong> (for no bootloader) or <strong>0x08007000</strong> (with 28KiB bootloader)</li>
-          <li>Check <strong>"Run after programming"</strong></li>
-          <li>Click <strong>"Start Programming"</strong></li>
+          <li>Download the prebuilt firmware from <a href="https://github.com/utkabobr/klipper/tree/prebuilt-v0.12.0" className="text-blue-600 hover:underline" target="_blank" rel="noopener">utkabobr/klipper prebuilt</a> (compatible with BeamKlipper)</li>
+          <li>OR compile your own on a PC / via Termux proot</li>
+          <li>Install <strong>STM32CubeProgrammer</strong> on the PC</li>
+          <li>Connect ST-Link V2 to PC via USB</li>
+          <li>Connect ST-Link V2 to printer board SWD pins</li>
+          <li>Flash the firmware (see connection details below)</li>
         </ol>
 
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Option B: Flash via Termux on the Tablet (Advanced)</h3>
+        <p className="text-gray-700">If using the Termux method, you can flash directly from the tablet:</p>
+        <CodeBlock>{`# In Termux:
+pkg install openocd android-tools
+
+# Connect ST-Link V2 via OTG
+# Verify connection:
+lsusb
+
+# Flash using st-flash:
+st-flash write /sdcard/klipper.bin 0x08000000
+
+# Or using OpenOCD:
+openocd -f interface/stlink.cfg -c "transport select hla_swd" \\
+  -f target/stm32f1x.cfg \\
+  -c "program /sdcard/klipper.bin verify reset exit 0x08000000"`}</CodeBlock>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">ST-Link V2 Connection to Printer Board</h3>
+        <PinDiagram />
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Firmware Configuration</h3>
+        <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm space-y-1">
+          <div className="text-cyan-400"># For STM32F103 (direct ST-Link flash, no bootloader):</div>
+          <div>Micro-controller architecture: <span className="text-green-400">STMicroelectronics STM32</span></div>
+          <div>Processor model: <span className="text-green-400">STM32F103</span></div>
+          <div>Bootloader offset: <span className="text-green-400">No bootloader</span></div>
+          <div>Communication interface: <span className="text-green-400">USB (on PA11/PA12)</span></div>
+        </div>
+
+        <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm space-y-1 mt-4">
+          <div className="text-cyan-400"># For GD32F303RET6 variant:</div>
+          <div>Micro-controller architecture: <span className="text-green-400">STMicroelectronics STM32</span></div>
+          <div>Processor model: <span className="text-green-400">STM32F103</span></div>
+          <div><span className="text-yellow-400">[*] Disable SWD at startup (for GigaDevice clones)</span></div>
+          <div>Bootloader offset: <span className="text-green-400">No bootloader</span></div>
+          <div>Communication interface: <span className="text-green-400">USB (on PA11/PA12)</span></div>
+        </div>
+
+        <Warning>
+          <strong>SAFETY:</strong> Disconnect printer from power before connecting ST-Link. After flashing, disconnect ST-Link before powering on the printer.
+        </Warning>
+
         <Tip>
-          <strong>STM32CubeProgrammer tip:</strong> Set the connection mode to <strong>"Connect Under Reset"</strong> if you have trouble connecting. This ensures the MCU is held in reset during connection.
+          <strong>Using BeamKlipper's prebuilt firmware:</strong> If you use BeamKlipper, download the matching prebuilt firmware.bin from the BeamKlipper GitHub. This ensures version compatibility between the host software and printer firmware.
         </Tip>
-
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Method C: Using st-link tools (Linux CLI)</h3>
-        <CodeBlock>{`# Install stlink tools
-sudo apt install stlink-tools
-
-# Erase the chip
-st-flash erase
-
-# Flash klipper.bin at the start of flash memory
-st-flash write ~/klipper/out/klipper.bin 0x08000000
-
-# Or with 28KiB bootloader offset:
-st-flash write ~/klipper/out/klipper.bin 0x08007000`}</CodeBlock>
       </div>
     ),
   },
@@ -395,124 +484,48 @@ st-flash write ~/klipper/out/klipper.bin 0x08007000`}</CodeBlock>
     icon: "📝",
     content: (
       <div className="space-y-4">
-        <p className="text-gray-700">Now configure Klipper to communicate with your printer. You'll need to set up the <code className="bg-gray-100 px-1 rounded">printer.cfg</code> file.</p>
+        <p className="text-gray-700">Configure Klipper to communicate with your Ender 3 V3 SE. You'll edit the printer.cfg through the web interface on your tablet.</p>
 
         <h3 className="font-bold text-lg text-gray-800">Find the Serial Port</h3>
-        <p className="text-gray-700">Connect the printer to the Pi via USB and find the serial port:</p>
-        <CodeBlock>{`# Connect printer to Pi via USB cable, then:
-ls /dev/serial/by-id/*
-# You should see something like:
-# /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0`}</CodeBlock>
+        <p className="text-gray-700">In BeamKlipper, the serial port is auto-detected when you connect the printer via OTG. You can also configure it manually in the "Devices" tab of the web interface.</p>
 
         <Info>
-          If you flashed with "No bootloader" via ST-Link, the printer connects via USB serial. If you flashed with a bootloader, you may need to use the bootloader's method (e.g., Katapult/CanBoot UUID).
+          <strong>BeamKlipper auto-detection:</strong> Version 1.0.1+ automatically configures the serial port if you have a single printer setup. Just connect the printer via USB OTG and BeamKlipper will detect it.
         </Info>
 
         <h3 className="font-bold text-lg text-gray-800 mt-6">Download a Pre-made Config</h3>
-        <p className="text-gray-700">Use one of these community-maintained configs as a starting point:</p>
+        <p className="text-gray-700">Use one of these community-maintained configs:</p>
         <ul className="list-disc list-inside space-y-2 text-gray-700">
           <li><a href="https://github.com/bootuz-dinamon/ender3-v3-se-full-klipper" className="text-blue-600 hover:underline font-medium" target="_blank" rel="noopener">bootuz-dinamon/ender3-v3-se-full-klipper</a> — Full config with driver section</li>
           <li><a href="https://github.com/0xD34D/ender3-v3-se-klipper-config" className="text-blue-600 hover:underline font-medium" target="_blank" rel="noopener">0xD34D/ender3-v3-se-klipper-config</a> — Config with PRtouch support</li>
         </ul>
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Basic printer.cfg Template</h3>
-        <CodeBlock language="ini">{`# Ender 3 V3 SE - Basic printer.cfg
-# Adjust serial path to match your setup
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Edit Config via Web Interface</h3>
+        <ol className="list-decimal list-inside space-y-2 text-gray-700">
+          <li>Open a browser on your tablet (or any device on the same WiFi)</li>
+          <li>Go to <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8888/</code></li>
+          <li>In Fluidd/Mainsail, go to the <strong>Configuration</strong> tab</li>
+          <li>Open <code className="bg-gray-100 px-1 rounded">printer.cfg</code></li>
+          <li>Paste the community config contents</li>
+          <li>Update the <code className="bg-gray-100 px-1 rounded">[mcu]</code> section serial path if needed</li>
+          <li>Save and restart</li>
+        </ol>
 
-[mcu]
-serial: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
-restart_method: command
-
-[printer]
-kinematics: cartesian
-max_velocity: 300
-max_accel: 3000
-max_z_velocity: 15
-max_z_accel: 100
-
-[stepper_x]
-step_pin: PC2
-dir_pin: !PB9
-enable_pin: !PC3
-microsteps: 16
-rotation_distance: 40
-endstop_pin: ^PA5
-position_min: 0
-position_endstop: 0
-position_max: 220
-homing_speed: 50
-
-[stepper_y]
-step_pin: PB8
-dir_pin: !PB7
-enable_pin: !PC3
-microsteps: 16
-rotation_distance: 40
-endstop_pin: ^PA6
-position_min: 0
-position_endstop: 0
-position_max: 220
-homing_speed: 50
-
-[stepper_z]
-step_pin: PB6
-dir_pin: !PB5
-enable_pin: !PC3
-microsteps: 16
-rotation_distance: 8
-endstop_pin: probe:z_virtual_endstop
-position_min: -2
-position_max: 250
-homing_speed: 4
-
-[extruder]
-step_pin: PB4
-dir_pin: !PB3
-enable_pin: !PC3
-microsteps: 16
-rotation_distance: 30.394
-nozzle_diameter: 0.400
-filament_diameter: 1.750
-heater_pin: PA1
-sensor_type: EPCOS 100K B57560G104F
-sensor_pin: PC5
-control: pid
-pid_Kp: 21.527
-pid_Ki: 1.063
-pid_Kd: 108.982
-min_temp: 0
-max_temp: 260
-
-[heater_bed]
-heater_pin: PB10
-sensor_type: EPCOS 100K B57560G104F
-sensor_pin: PC4
-control: pid
-pid_Kp: 54.027
-pid_Ki: 0.770
-pid_Kd: 948.182
-min_temp: 0
-max_temp: 100
-
-[fan]
-pin: PA0
-
-# IMPORTANT: Use the community config for accurate pin mappings!
-# This is just a template - actual pins may differ.`}</CodeBlock>
+        <h3 className="font-bold text-lg text-gray-800 mt-6">MCU Section for USB Connection</h3>
+        <CodeBlock language="ini">{`[mcu]
+# For BeamKlipper, the serial is usually auto-configured
+# If manual, it will be something like:
+serial: /dev/bus/usb/001/002
+# Or use VID:PID format (more reliable across reboots):
+# serial: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+restart_method: command`}</CodeBlock>
 
         <Warning>
-          <strong>Pin mappings vary!</strong> The above is a rough template. Always use the community-verified config files linked above, as pin assignments for the CR4NS200320C13 board are specific. Incorrect pin configuration can damage your hardware.
+          <strong>Pin mappings vary!</strong> Always use the community-verified config files linked above. The CR4NS200320C13 board has specific pin assignments that differ from other Ender 3 boards.
         </Warning>
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Upload to Mainsail/Fluidd</h3>
-        <p className="text-gray-700">Upload your printer.cfg through the web interface:</p>
-        <ol className="list-decimal list-inside space-y-2 text-gray-700">
-          <li>Open <code className="bg-gray-100 px-1 rounded">http://&lt;your-pi-ip&gt;</code> in a browser</li>
-          <li>Go to the <strong>Machine</strong> tab</li>
-          <li>Open <code className="bg-gray-100 px-1 rounded">printer.cfg</code></li>
-          <li>Paste the config contents</li>
-          <li>Click <strong>Save & Restart</strong></li>
-        </ol>
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Finding Your Tablet's IP Address</h3>
+        <p className="text-gray-700">On the tablet, go to <strong>Settings → WiFi → tap your connected network</strong> to see the IP address. Or check the BeamKlipper main screen which displays the URL.</p>
       </div>
     ),
   },
@@ -522,28 +535,20 @@ pin: PA0
     icon: "✅",
     content: (
       <div className="space-y-4">
-        <p className="text-gray-700">Verify that Klipper is communicating with your printer correctly.</p>
+        <p className="text-gray-700">Verify that Klipper is communicating with your printer correctly through the tablet.</p>
 
         <h3 className="font-bold text-lg text-gray-800">Check Connection</h3>
         <ol className="list-decimal list-inside space-y-2 text-gray-700">
           <li>Power on the Ender 3 V3 SE</li>
-          <li>Ensure the USB cable is connected between the printer and Pi</li>
-          <li>Open the Mainsail/Fluidd web interface</li>
-          <li>Check that the status shows <strong>"Ready"</strong> (not "MCU error")</li>
+          <li>Connect the printer to the tablet via USB OTG</li>
+          <li>Open BeamKlipper — it should detect the printer</li>
+          <li>Click "Start" to launch Klipper</li>
+          <li>Open the web interface at <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8888/</code></li>
+          <li>Check that the status shows <strong>"Ready"</strong></li>
         </ol>
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Verify MCU Connection via SSH</h3>
-        <CodeBlock>{`# SSH into your Pi and check:
-ls /dev/serial/by-id/*
-
-# Check Klipper service status
-sudo systemctl status klipper
-
-# View Klipper logs for errors
-cat /tmp/klippy.log | tail -50`}</CodeBlock>
-
         <h3 className="font-bold text-lg text-gray-800 mt-6">Test Movements</h3>
-        <p className="text-gray-700">In the Mainsail console, test basic movements:</p>
+        <p className="text-gray-700">In the Fluidd/Mainsail console, test basic movements:</p>
         <CodeBlock language="gcode">{`# Test homing
 G28
 
@@ -573,8 +578,18 @@ G1 E5 F100`}</CodeBlock>
           <li><strong>Input shaper:</strong> Use an accelerometer for resonance testing</li>
         </ul>
 
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Set Up as Dedicated Display (Optional)</h3>
+        <p className="text-gray-700">Turn your tablet into a dedicated Klipper touchscreen:</p>
+        <ol className="list-decimal list-inside space-y-2 text-gray-700">
+          <li>Set BeamKlipper as the <strong>default launcher</strong> (Settings → Apps → Default apps → Home app)</li>
+          <li>Remove the lock screen PIN (required if device is encrypted)</li>
+          <li>Enable auto-start for your printer instance in BeamKlipper</li>
+          <li>Set screen timeout to "Never" while charging</li>
+          <li>Mount the tablet near your printer for a built-in touchscreen interface!</li>
+        </ol>
+
         <Tip>
-          <strong>Known limitations:</strong> The built-in screen will show a screensaver after flashing Klipper (it won't work normally). Auto Z-offset probing (PRtouch) requires a special Klipper fork by 0xD34D.
+          <strong>Known limitations:</strong> The Ender 3 V3 SE's built-in screen will show a screensaver after flashing Klipper. Auto Z-offset probing (PRtouch) requires a special Klipper fork by 0xD34D.
         </Tip>
       </div>
     ),
@@ -585,16 +600,60 @@ G1 E5 F100`}</CodeBlock>
     icon: "🔍",
     content: (
       <div className="space-y-4">
-        <p className="text-gray-700">Common issues and solutions when installing Klipper on the Ender 3 V3 SE.</p>
+        <p className="text-gray-700">Common issues and solutions specific to the Samsung Galaxy Tab A 10.5 + Klipper setup.</p>
 
         <div className="space-y-4">
           <div className="border border-gray-200 rounded-lg p-4">
             <h4 className="font-bold text-red-700">❌ "MCU: Unable to connect"</h4>
             <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
-              <li>Check the serial path in printer.cfg matches <code className="bg-gray-100 px-1 rounded">ls /dev/serial/by-id/*</code></li>
-              <li>Verify the USB cable is a data cable (not charge-only)</li>
-              <li>Restart Klipper: <code className="bg-gray-100 px-1 rounded">sudo systemctl restart klipper</code></li>
-              <li>Check if firmware was actually flashed (the screen should show screensaver, not normal UI)</li>
+              <li>Check OTG connection — make sure the cable is working</li>
+              <li>In BeamKlipper, go to "Devices" tab and verify the serial port is detected</li>
+              <li>Try unplugging and replugging the USB cable</li>
+              <li>Ensure the printer firmware matches the BeamKlipper version</li>
+              <li>Restart BeamKlipper and the printer</li>
+            </ul>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <h4 className="font-bold text-red-700">❌ Tablet not charging while using OTG</h4>
+            <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
+              <li>Verify you're using a powered OTG hub or custom OTG+charge cable</li>
+              <li>Try different resistor values (1kΩ to 100kΩ) in the DIY cable</li>
+              <li>Some USB hubs don't support simultaneous charge — try a different hub</li>
+              <li>As a last resort: print from battery power (6000mAh gives ~2-4 hours)</li>
+            </ul>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <h4 className="font-bold text-red-700">❌ BeamKlipper gets killed in background</h4>
+            <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
+              <li>Disable battery optimization for BeamKlipper (Settings → Apps → Battery → Don't optimize)</li>
+              <li>Set BeamKlipper as the default launcher</li>
+              <li>Install "Wake Lock - CPU Awake" app from Play Store</li>
+              <li>Run <code className="bg-gray-100 px-1 rounded">dumpsys deviceidle disable</code> in Termux</li>
+              <li>Enable "Stay Awake" in Developer Options</li>
+              <li>Some Samsung devices have aggressive task killing — check "Recent apps" → lock BeamKlipper</li>
+            </ul>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <h4 className="font-bold text-red-700">❌ OTG not detected / USB device not showing</h4>
+            <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
+              <li>Check that USB OTG is enabled (some Samsung tablets need it enabled in settings)</li>
+              <li>Try a different OTG adapter — some cheap ones don't work</li>
+              <li>In Termux, run <code className="bg-gray-100 px-1 rounded">ls /dev/bus/usb/*</code> to check if USB is working</li>
+              <li>Restart the tablet with the USB device already connected</li>
+              <li>Grant USB permission when prompted by Android</li>
+            </ul>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <h4 className="font-bold text-red-700">❌ Web interface not accessible from other devices</h4>
+            <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
+              <li>Ensure tablet and other devices are on the same WiFi network</li>
+              <li>Check the tablet's IP address (Settings → WiFi → network details)</li>
+              <li>Port 8888 must be accessible — check if a firewall is blocking it</li>
+              <li>Try accessing from the tablet itself: <code className="bg-gray-100 px-1 rounded">http://localhost:8888/</code></li>
             </ul>
           </div>
 
@@ -605,30 +664,7 @@ G1 E5 F100`}</CodeBlock>
               <li>Ensure the board is powered</li>
               <li>Try "Connect Under Reset" mode in STM32CubeProgrammer</li>
               <li>Check wire connections are solid (use short jumper wires)</li>
-              <li>Try lowering adapter speed: <code className="bg-gray-100 px-1 rounded">adapter speed 1000</code></li>
-              <li>If using a GD32 clone, ensure you're not trying to use SWD after it's been disabled</li>
-            </ul>
-          </div>
-
-          <div className="border border-gray-200 rounded-lg p-4">
-            <h4 className="font-bold text-red-700">❌ SD card flash doesn't work</h4>
-            <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
-              <li>Format SD card as <strong>FAT32</strong> with <strong>4096-byte</strong> allocation unit size</li>
-              <li>Use a small SD card (≤32GB, preferably ≤8GB)</li>
-              <li>Rename the file to <code className="bg-gray-100 px-1 rounded">firmware.bin</code> or <code className="bg-gray-100 px-1 rounded">firmware.cur</code></li>
-              <li>Power off → insert SD → power on → wait 2-3 minutes</li>
-              <li>Remove SD card after flashing</li>
-              <li>The SD card slot on these boards can be finicky — clean it with compressed air</li>
-            </ul>
-          </div>
-
-          <div className="border border-gray-200 rounded-lg p-4">
-            <h4 className="font-bold text-red-700">❌ GD32F303 won't flash / firmware doesn't stick</h4>
-            <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
-              <li>Enable <code className="bg-gray-100 px-1 rounded">[*] Disable SWD at startup</code> in menuconfig</li>
-              <li>Try reformatting SD card with exact 4096-byte cluster size</li>
-              <li>Some GD32 chips are more finicky — try flashing multiple times</li>
-              <li>Use ST-Link V2 for the most reliable flash method</li>
+              <li>Try lowering adapter speed</li>
             </ul>
           </div>
 
@@ -677,6 +713,15 @@ function Sidebar({ currentStep, onStepClick }: { currentStep: number; onStepClic
             </li>
           ))}
         </ul>
+
+        <div className="mt-8 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+          <div className="text-xs font-bold text-blue-800 uppercase mb-2">Your Setup</div>
+          <div className="space-y-2 text-xs text-blue-700">
+            <div className="flex items-center gap-2">📱 Galaxy Tab A 10.5</div>
+            <div className="flex items-center gap-2">🖨️ Ender 3 V3 SE</div>
+            <div className="flex items-center gap-2">🔧 ST-Link V2</div>
+          </div>
+        </div>
       </div>
     </nav>
   );
@@ -703,12 +748,13 @@ export default function App() {
               <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-xl">🖨️</div>
               <div>
                 <h1 className="text-lg font-bold">Klipper Installation Guide</h1>
-                <p className="text-xs text-gray-400">Ender 3 V3 SE + ST-Link V2</p>
+                <p className="text-xs text-gray-400">Ender 3 V3 SE + Galaxy Tab SM-T395 + ST-Link V2</p>
               </div>
             </div>
-            <div className="hidden md:flex items-center gap-4 text-sm">
+            <div className="hidden md:flex items-center gap-3 text-sm">
               <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-medium">STM32F103</span>
               <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs font-medium">SWD Flash</span>
+              <span className="bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full text-xs font-medium">Android Host</span>
             </div>
           </div>
         </div>
@@ -721,34 +767,71 @@ export default function App() {
         {/* Main Content */}
         <main className="flex-1 max-w-4xl mx-auto px-4 py-8 lg:px-8">
           {/* Hero Section */}
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 mb-8 text-white shadow-xl">
+          <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-8 mb-8 text-white shadow-xl">
             <h2 className="text-3xl font-bold mb-3">Install Klipper on Ender 3 V3 SE</h2>
-            <p className="text-blue-100 text-lg mb-4">
-              Complete step-by-step guide using an ST-Link V2 programmer to flash Klipper firmware directly to your printer's mainboard.
+            <p className="text-blue-100 text-lg mb-2">
+              Using your <strong>Samsung Galaxy Tab A 10.5 (SM-T395)</strong> as the Klipper host — no Raspberry Pi needed!
+            </p>
+            <p className="text-blue-200 text-sm mb-4">
+              Flash firmware via ST-Link V2, then control everything from your tablet's touchscreen.
             </p>
             <div className="flex flex-wrap gap-3 mt-4">
               <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm">⏱️ ~2-3 hours</span>
               <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm">🔧 Intermediate</span>
-              <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm">📟 ST-Link V2 Required</span>
+              <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm">📱 No Raspberry Pi</span>
+              <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm">📟 ST-Link V2</span>
             </div>
           </div>
 
           {/* Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-              <div className="text-3xl mb-2">🎯</div>
-              <h3 className="font-bold text-gray-800">Why ST-Link V2?</h3>
-              <p className="text-sm text-gray-600 mt-1">Most reliable method to flash firmware. Bypasses SD card issues and allows direct MCU access.</p>
+              <div className="text-3xl mb-2">📱</div>
+              <h3 className="font-bold text-gray-800">Tablet as Host</h3>
+              <p className="text-sm text-gray-600 mt-1">Your SM-T395 replaces the Raspberry Pi. Built-in touchscreen, WiFi, battery backup, and zero extra cost.</p>
             </div>
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
               <div className="text-3xl mb-2">⚡</div>
-              <h3 className="font-bold text-gray-800">Benefits</h3>
-              <p className="text-sm text-gray-600 mt-1">Faster prints, input shaping, pressure advance, web interface control, and more.</p>
+              <h3 className="font-bold text-gray-800">BeamKlipper</h3>
+              <p className="text-sm text-gray-600 mt-1">One app does it all: Klipper + Moonraker + Fluidd/Mainsail. No root, no Linux knowledge needed.</p>
             </div>
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-              <div className="text-3xl mb-2">🔄</div>
-              <h3 className="font-bold text-gray-800">Reversible</h3>
-              <p className="text-sm text-gray-600 mt-1">You can always restore stock firmware via ST-Link or SD card method.</p>
+              <div className="text-3xl mb-2">🔧</div>
+              <h3 className="font-bold text-gray-800">ST-Link V2 Flash</h3>
+              <p className="text-sm text-gray-600 mt-1">Reliable firmware flashing via SWD debug pins. Bypasses SD card issues entirely.</p>
+            </div>
+          </div>
+
+          {/* Architecture Diagram */}
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
+            <h3 className="font-bold text-gray-800 mb-4 text-center">How It All Connects</h3>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+              <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 w-48">
+                <div className="text-3xl mb-2">📱</div>
+                <div className="font-bold text-blue-800 text-sm">Galaxy Tab SM-T395</div>
+                <div className="text-xs text-blue-600 mt-1">BeamKlipper App</div>
+                <div className="text-xs text-gray-500">Klipper + Moonraker + Fluidd</div>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="text-xs text-gray-500 mb-1">WiFi / USB OTG</div>
+                <div className="text-2xl">⇄</div>
+              </div>
+              <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4 w-48">
+                <div className="text-3xl mb-2">🖨️</div>
+                <div className="font-bold text-green-800 text-sm">Ender 3 V3 SE</div>
+                <div className="text-xs text-green-600 mt-1">Klipper Firmware</div>
+                <div className="text-xs text-gray-500">STM32F103 MCU</div>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="text-xs text-gray-500 mb-1">SWD (one-time)</div>
+                <div className="text-2xl">⇄</div>
+              </div>
+              <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4 w-48">
+                <div className="text-3xl mb-2">🔧</div>
+                <div className="font-bold text-orange-800 text-sm">ST-Link V2</div>
+                <div className="text-xs text-orange-600 mt-1">Firmware Flash</div>
+                <div className="text-xs text-gray-500">One-time setup</div>
+              </div>
             </div>
           </div>
 
@@ -800,10 +883,11 @@ export default function App() {
               This guide is community-sourced. Always verify information against official documentation.
             </p>
             <div className="flex flex-wrap justify-center gap-4 mt-4">
-              <a href="https://www.klipper3d.org/" target="_blank" rel="noopener" className="text-blue-600 hover:underline">Klipper Documentation</a>
-              <a href="https://www.klipper3d.org/Bootloaders.html" target="_blank" rel="noopener" className="text-blue-600 hover:underline">Klipper Bootloaders Guide</a>
-              <a href="https://github.com/dw-0/KIAUH" target="_blank" rel="noopener" className="text-blue-600 hover:underline">KIAUH GitHub</a>
+              <a href="https://www.klipper3d.org/" target="_blank" rel="noopener" className="text-blue-600 hover:underline">Klipper Docs</a>
+              <a href="https://github.com/utkabobr/BeamKlipper" target="_blank" rel="noopener" className="text-blue-600 hover:underline">BeamKlipper</a>
+              <a href="https://www.klipper3d.org/Bootloaders.html" target="_blank" rel="noopener" className="text-blue-600 hover:underline">Bootloaders Guide</a>
               <a href="https://pblvsky.gitbook.io/ender3v3se/" target="_blank" rel="noopener" className="text-blue-600 hover:underline">Ender 3 V3 SE Wiki</a>
+              <a href="https://github.com/d4rk50ul1/klipper-on-android" target="_blank" rel="noopener" className="text-blue-600 hover:underline">Klipper on Android (Termux)</a>
             </div>
             <p className="mt-4 text-xs text-gray-400">
               ⚠️ Flashing firmware carries risk. Proceed at your own risk. The authors are not responsible for any damage.
