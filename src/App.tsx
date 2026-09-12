@@ -233,135 +233,88 @@ const steps: Step[] = [
   },
   {
     id: 3,
-    title: "Install BeamKlipper (Easiest Method)",
-    icon: "📱",
-    content: (
-      <div className="space-y-4">
-        <p className="text-gray-700"><strong>BeamKlipper</strong> is the easiest way to run Klipper on Android. It requires <strong>no root</strong>, runs as a regular app, and bundles Klipper + Moonraker + Fluidd/Mainsail all in one package.</p>
-
-        <Info>
-          <strong>BeamKlipper requirements:</strong> Android 5.0+ with OTG support. Your SM-T395 runs Android 10 — perfect!
-        </Info>
-
-        <h3 className="font-bold text-lg text-gray-800">Step-by-Step Installation</h3>
-        <ol className="list-decimal list-inside space-y-3 text-gray-700">
-          <li>
-            <strong>Download BeamKlipper APK</strong>
-            <br />
-            <span className="text-sm text-gray-500">Go to <a href="https://github.com/utkabobr/BeamKlipper/releases/latest" className="text-blue-600 hover:underline" target="_blank" rel="noopener">github.com/utkabobr/BeamKlipper/releases</a> and download the latest APK</span>
-          </li>
-          <li>
-            <strong>Install the APK</strong>
-            <br />
-            <span className="text-sm text-gray-500">You may need to enable "Install from Unknown Sources" in Settings → Security</span>
-          </li>
-          <li>
-            <strong>Open BeamKlipper and grant permissions</strong>
-            <br />
-            <span className="text-sm text-gray-500">Allow USB access, storage, notifications, and background activity</span>
-          </li>
-          <li>
-            <strong>Add a printer instance</strong>
-            <br />
-            <span className="text-sm text-gray-500">Click "Add Printer" and select a config file. For Ender 3 V3 SE, use a community config or generic template</span>
-          </li>
-          <li>
-            <strong>Download the firmware for your printer</strong>
-            <br />
-            <span className="text-sm text-gray-500">Get the prebuilt firmware.bin from <a href="https://github.com/utkabobr/klipper/tree/prebuilt-v0.12.0" className="text-blue-600 hover:underline" target="_blank" rel="noopener">utkabobr/klipper prebuilt</a> or build your own (see Step 5)</span>
-          </li>
-          <li>
-            <strong>Connect your printer via USB OTG</strong>
-            <br />
-            <span className="text-sm text-gray-500">Plug the printer's USB cable into the OTG adapter/hub connected to your tablet</span>
-          </li>
-          <li>
-            <strong>Click "Start" in BeamKlipper</strong>
-            <br />
-            <span className="text-sm text-gray-500">The app will start Klipper, Moonraker, and the web interface</span>
-          </li>
-          <li>
-            <strong>Access the web interface</strong>
-            <br />
-            <span className="text-sm text-gray-500">Open a browser on any device and go to <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8888/</code></span>
-          </li>
-        </ol>
-
-        <h3 className="font-bold text-lg text-gray-800 mt-6">What's Included in BeamKlipper</h3>
-        <div className="grid grid-cols-2 gap-3 mt-3">
-          <div className="bg-blue-50 p-3 rounded-lg text-sm">
-            <strong className="text-blue-800">Klipper</strong>
-            <p className="text-blue-600 text-xs mt-1">Firmware host (Klippy)</p>
-          </div>
-          <div className="bg-purple-50 p-3 rounded-lg text-sm">
-            <strong className="text-purple-800">Moonraker</strong>
-            <p className="text-purple-600 text-xs mt-1">API web server</p>
-          </div>
-          <div className="bg-green-50 p-3 rounded-lg text-sm">
-            <strong className="text-green-800">Fluidd</strong>
-            <p className="text-green-600 text-xs mt-1">Web interface</p>
-          </div>
-          <div className="bg-orange-50 p-3 rounded-lg text-sm">
-            <strong className="text-orange-800">Mainsail</strong>
-            <p className="text-orange-600 text-xs mt-1">Alternative web UI</p>
-          </div>
-        </div>
-
-        <Tip>
-          <strong>Web interface URLs:</strong>
-          <br />• Fluidd/Mainsail: <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8888/</code>
-          <br />• Camera stream: <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8889/</code>
-        </Tip>
-
-        <Warning>
-          <strong>Important limitation:</strong> BeamKlipper cannot build firmware on the device (no SSH/terminal access). You must flash the printer firmware separately using the ST-Link V2 method (Step 5) or SD card method. BeamKlipper only runs the Klipper host software.
-        </Warning>
-      </div>
-    ),
-  },
-  {
-    id: 4,
-    title: "Alternative: Termux + proot-distro (Advanced)",
+    title: "Install Termux + proot (Full Control Method)",
     icon: "🐧",
     content: (
       <div className="space-y-4">
-        <p className="text-gray-700">If you want more control (ability to build firmware, SSH access, custom services), use Termux with a Linux proot environment.</p>
+        <p className="text-gray-700">Set up a full Linux environment on your Galaxy Tab using Termux and proot-distro. This gives you complete control over Klipper, the ability to build firmware, SSH access, and no app restrictions.</p>
 
         <Warning>
-          <strong>This method is more complex</strong> and requires more technical knowledge. Only use this if BeamKlipper doesn't meet your needs.
+          <strong>Important:</strong> Install Termux from <strong>F-Droid</strong>, NOT the Play Store. The Play Store version is outdated and broken.
         </Warning>
 
-        <h3 className="font-bold text-lg text-gray-800">Install Required Apps</h3>
-        <ol className="list-decimal list-inside space-y-2 text-gray-700">
-          <li><strong>Termux</strong> — install from <a href="https://f-droid.org/packages/com.termux/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">F-Droid</a> (NOT Play Store — that version is outdated)</li>
-          <li><strong>Termux:API</strong> — from F-Droid (for hardware access)</li>
-          <li><strong>Termux:Boot</strong> — from F-Droid (for autostart)</li>
-          <li><strong>XServer XSDL</strong> — from Play Store (for KlipperScreen GUI)</li>
+        <h3 className="font-bold text-lg text-gray-800">Step 1: Install Required Apps</h3>
+        <ol className="list-decimal list-inside space-y-3 text-gray-700">
+          <li>
+            <strong>Termux</strong> — Install from <a href="https://f-droid.org/packages/com.termux/" className="text-blue-600 hover:underline font-medium" target="_blank" rel="noopener">F-Droid</a>
+            <br />
+            <span className="text-sm text-gray-500">Terminal emulator with Linux package management</span>
+          </li>
+          <li>
+            <strong>Termux:API</strong> — Install from <a href="https://f-droid.org/packages/com.termux.api/" className="text-blue-600 hover:underline font-medium" target="_blank" rel="noopener">F-Droid</a>
+            <br />
+            <span className="text-sm text-gray-500">Provides hardware access (battery, wifi, etc.)</span>
+          </li>
+          <li>
+            <strong>Termux:Boot</strong> — Install from <a href="https://f-droid.org/packages/com.termux.boot/" className="text-blue-600 hover:underline font-medium" target="_blank" rel="noopener">F-Droid</a>
+            <br />
+            <span className="text-sm text-gray-500">Enables autostart on device boot</span>
+          </li>
+          <li>
+            <strong>Termux:Widget</strong> — Install from <a href="https://f-droid.org/packages/com.termux.widget/" className="text-blue-600 hover:underline font-medium" target="_blank" rel="noopener">F-Droid</a>
+            <br />
+            <span className="text-sm text-gray-500">Home screen shortcuts for scripts (optional)</span>
+          </li>
         </ol>
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Set Up proot-distro (Linux Environment)</h3>
-        <CodeBlock>{`# Update Termux
-pkg update && pkg upgrade
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Step 2: Initial Termux Setup</h3>
+        <p className="text-gray-700">Open Termux and run these commands:</p>
+        <CodeBlock>{`# Update Termux packages
+pkg update && pkg upgrade -y
 
-# Install proot-distro
-pkg install proot-distro
+# Grant storage access (allows access to /sdcard)
+termux-setup-storage
 
-# Install Debian
+# Install essential packages
+pkg install -y proot-distro git wget curl nano`}</CodeBlock>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Step 3: Install Debian with proot-distro</h3>
+        <CodeBlock>{`# Install Debian
 proot-distro install debian
 
 # Login to Debian
 proot-distro login debian
 
-# Inside Debian:
-apt update && apt upgrade -y
-apt install git sudo python3 python3-pip \
-  virtualenv libconfig-dev libdbus-1-dev \
-  libegl-dev libgl-dev libxcb-dev \
-  libwayland-dev wayland-protocols \
-  cmake build-essential nginx -y`}</CodeBlock>
+# You're now in a Debian environment!
+# Update the system
+apt update && apt upgrade -y`}</CodeBlock>
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Install Klipper via KIAUH</h3>
-        <CodeBlock>{`# Clone KIAUH
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Step 4: Install Klipper Dependencies</h3>
+        <CodeBlock>{`# Install required packages
+apt install -y \\
+  git \\
+  python3 \\
+  python3-pip \\
+  python3-dev \\
+  python3-venv \\
+  virtualenv \\
+  libconfig-dev \\
+  libdbus-1-dev \\
+  libegl-dev \\
+  libgl-dev \\
+  libxcb-dev \\
+  libwayland-dev \\
+  wayland-protocols \\
+  cmake \\
+  build-essential \\
+  nginx \\
+  sudo \\
+  wget \\
+  curl \\
+  nano`}</CodeBlock>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Step 5: Install Klipper via KIAUH</h3>
+        <CodeBlock>{`# Clone KIAUH (Klipper Installation And Update Helper)
 cd ~
 git clone https://github.com/dw-0/KIAUH.git
 
@@ -369,50 +322,142 @@ git clone https://github.com/dw-0/KIAUH.git
 cd KIAUH
 ./kiauh.sh
 
-# From the menu install:
-# 1. Klipper
-# 2. Moonraker  
-# 3. Mainsail (or Fluidd)
-# 4. KlipperScreen (optional - needs X11)`}</CodeBlock>
+# From the KIAUH menu:
+# 1. Install Klipper
+# 2. Install Moonraker
+# 3. Install Mainsail (or Fluidd)
+# 4. (Optional) Install KlipperScreen
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Configure USB Serial Access</h3>
-        <p className="text-gray-700">To access the printer via USB from within proot, you need to bind-mount the USB device:</p>
-        <CodeBlock>{`# Exit debian first, then in Termux:
-# Find your printer's USB device
+# Exit KIAUH when done`}</CodeBlock>
+
+        <Info>
+          <strong>KIAUH will:</strong>
+          <br />• Download and install Klipper source code
+          <br />• Set up Python virtual environment
+          <br />• Install Moonraker API server
+          <br />• Configure nginx web server
+          <br />• Set up Mainsail/Fluidd web interface
+        </Info>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Step 6: Configure USB Serial Access</h3>
+        <p className="text-gray-700">To access your printer via USB from within the Debian proot environment:</p>
+        
+        <CodeBlock>{`# Exit Debian first (type 'exit')
+# Back in Termux, find your USB device:
 ls /dev/bus/usb/*
 
-# Login to debian with USB access:
+# Login to Debian with USB device binding:
 proot-distro login debian --bind /dev/bus/usb:/dev/bus/usb
 
-# Inside debian, check for the printer:
-ls /dev/ttyUSB* /dev/ttyACM* 2>/dev/null`}</CodeBlock>
+# Inside Debian, check for the printer:
+ls /dev/ttyUSB* /dev/ttyACM* 2>/dev/null
+
+# Make the device accessible:
+sudo chmod 777 /dev/ttyUSB0  # or /dev/ttyACM0
+# Or find the exact device name and use that`}</CodeBlock>
 
         <Tip>
-          <strong>For KlipperScreen:</strong> Start XServer XSDL first, then set the DISPLAY variable:
-          <code className="block bg-gray-100 p-2 mt-2 rounded text-sm">export DISPLAY=localhost:0</code>
-          Then launch KlipperScreen. It will render on the XServer display.
+          <strong>Alternative: Octo4a for USB serial</strong>
+          <br />If the printer doesn't appear in /dev/, install <a href="https://github.com/feelfreelinux/octo4a" className="text-blue-600 hover:underline" target="_blank" rel="noopener">Octo4a</a> app (provides USB serial driver), then mount its serial pipe:
+          <code className="block bg-gray-100 p-2 mt-2 rounded text-sm">proot-distro login debian --bind /data/data/com.octo4a/files:/home/user/octo4a</code>
+          Then use <code className="bg-gray-100 px-1 rounded">/home/user/octo4a/serialpipe</code> as your serial port.
         </Tip>
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Building Firmware (Advantage over BeamKlipper)</h3>
-        <CodeBlock>{`# Inside the Debian proot environment:
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Step 7: Configure printer.cfg</h3>
+        <CodeBlock>{`# Edit the printer configuration
+nano ~/printer_data/config/printer.cfg
+
+# Add your Ender 3 V3 SE configuration
+# Use a community config from:
+# https://github.com/bootuz-dinamon/ender3-v3-se-full-klipper
+# or
+# https://github.com/0xD34D/ender3-v3-se-klipper-config
+
+# Update the [mcu] section serial path:
+[mcu]
+serial: /dev/ttyUSB0  # or /dev/ttyACM0 or /home/user/octo4a/serialpipe
+restart_method: command`}</CodeBlock>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Step 8: Start Klipper Services</h3>
+        <CodeBlock>{`# Start Klipper
+sudo systemctl start klipper
+
+# Start Moonraker
+sudo systemctl start moonraker
+
+# Start nginx (web server)
+sudo systemctl start nginx
+
+# Check status
+sudo systemctl status klipper
+sudo systemctl status moonraker`}</CodeBlock>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Step 9: Access the Web Interface</h3>
+        <p className="text-gray-700">Find your tablet's IP address:</p>
+        <CodeBlock>{`# In Termux (outside Debian):
+ifconfig
+# Look for wlan0 and note the inet address (e.g., 192.168.1.100)`}</CodeBlock>
+
+        <p className="text-gray-700 mt-3">Then open a browser on your tablet (or any device on the same WiFi) and go to:</p>
+        <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <li><strong>Mainsail:</strong> <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;/</code></li>
+          <li><strong>Fluidd:</strong> <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;/</code> (if you chose Fluidd)</li>
+        </ul>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Step 10: Set Up Autostart (Optional)</h3>
+        <CodeBlock>{`# In Termux (outside Debian), create boot script:
+mkdir -p ~/.termux/boot/
+nano ~/.termux/boot/start-klipper.sh
+
+# Add this content:
+#!/data/data/com.termux/files/usr/bin/sh
+termux-wake-lock
+proot-distro login debian --bind /dev/bus/usb:/dev/bus/usb -- bash -c "sudo systemctl start klipper && sudo systemctl start moonraker && sudo systemctl start nginx"
+
+# Make it executable:
+chmod +x ~/.termux/boot/start-klipper.sh`}</CodeBlock>
+
+        <Tip>
+          <strong>Prevent Android from killing Termux:</strong>
+          <br />• Disable battery optimization for Termux (Settings → Apps → Termux → Battery → Don't optimize)
+          <br />• Enable "Stay Awake" in Developer Options
+          <br />• Run <code className="bg-gray-100 px-1 rounded">termux-wake-lock</code> in Termux
+          <br />• Install "Wake Lock - CPU Awake" app from Play Store
+        </Tip>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Building Firmware (Advantage of Termux Method)</h3>
+        <p className="text-gray-700">Unlike BeamKlipper, you can build firmware directly on your tablet:</p>
+        <CodeBlock>{`# Inside Debian proot:
 cd ~/klipper
 make menuconfig
 
-# Configure for Ender 3 V3 SE:
+# Configure for your CR4NS200320C14 board:
 # - Micro-controller: STMicroelectronics STM32
 # - Processor: STM32F103
-# - Bootloader: No bootloader (for ST-Link flash)
-# - Communication: USB on PA11/PA12
+# - [*] Disable SWD at startup (for GigaDevice clones)
+# - Bootloader: No bootloader
+# - Communication: USB (on PA11/PA12)
 
 make
 
-# The compiled firmware will be at ~/klipper/out/klipper.bin
-# Copy it to your tablet's storage for ST-Link flashing`}</CodeBlock>
+# The compiled firmware will be at:
+# ~/klipper/out/klipper.bin
+
+# Copy to tablet storage for ST-Link flashing:
+cp ~/klipper/out/klipper.bin ~/storage/downloads/`}</CodeBlock>
+
+        <Warning>
+          <strong>Troubleshooting:</strong>
+          <br />• If nginx fails to start, check <code className="bg-gray-100 px-1 rounded">/var/log/nginx/error.log</code>
+          <br />• If Klipper can't connect to MCU, verify USB serial permissions
+          <br />• If services don't auto-start, check systemd is working in proot
+          <br />• For permission issues, run commands with <code className="bg-gray-100 px-1 rounded">sudo</code>
+        </Warning>
       </div>
     ),
   },
   {
-    id: 5,
+    id: 4,
     title: "Flash Firmware via ST-Link V2",
     icon: "🔧",
     content: (
@@ -516,7 +561,7 @@ openocd -f interface/stlink.cfg -c "transport select hla_swd" \\
     ),
   },
   {
-    id: 6,
+    id: 5,
     title: "Configure printer.cfg",
     icon: "📝",
     content: (
@@ -524,10 +569,14 @@ openocd -f interface/stlink.cfg -c "transport select hla_swd" \\
         <p className="text-gray-700">Configure Klipper to communicate with your Ender 3 V3 SE. You'll edit the printer.cfg through the web interface on your tablet.</p>
 
         <h3 className="font-bold text-lg text-gray-800">Find the Serial Port</h3>
-        <p className="text-gray-700">In BeamKlipper, the serial port is auto-detected when you connect the printer via OTG. You can also configure it manually in the "Devices" tab of the web interface.</p>
+        <p className="text-gray-700">In Termux, the serial port depends on how you connected the printer:</p>
+        <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <li>If using direct USB: <code className="bg-gray-100 px-1 rounded">/dev/ttyUSB0</code> or <code className="bg-gray-100 px-1 rounded">/dev/ttyACM0</code></li>
+          <li>If using Octo4a: <code className="bg-gray-100 px-1 rounded">/home/user/octo4a/serialpipe</code></li>
+        </ul>
 
         <Info>
-          <strong>BeamKlipper auto-detection:</strong> Version 1.0.1+ automatically configures the serial port if you have a single printer setup. Just connect the printer via USB OTG and BeamKlipper will detect it.
+          <strong>Finding your serial port:</strong> In Termux, run <code className="bg-gray-100 px-1 rounded">ls /dev/ttyUSB* /dev/ttyACM*</code> to see available devices. Plug/unplug the printer to see which device appears/disappears.
         </Info>
 
         <h3 className="font-bold text-lg text-gray-800 mt-6">Download a Pre-made Config</h3>
@@ -540,21 +589,22 @@ openocd -f interface/stlink.cfg -c "transport select hla_swd" \\
         <h3 className="font-bold text-lg text-gray-800 mt-6">Edit Config via Web Interface</h3>
         <ol className="list-decimal list-inside space-y-2 text-gray-700">
           <li>Open a browser on your tablet (or any device on the same WiFi)</li>
-          <li>Go to <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8888/</code></li>
+          <li>Go to <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;/</code></li>
           <li>In Fluidd/Mainsail, go to the <strong>Configuration</strong> tab</li>
           <li>Open <code className="bg-gray-100 px-1 rounded">printer.cfg</code></li>
           <li>Paste the community config contents</li>
-          <li>Update the <code className="bg-gray-100 px-1 rounded">[mcu]</code> section serial path if needed</li>
+          <li>Update the <code className="bg-gray-100 px-1 rounded">[mcu]</code> section serial path to match your setup</li>
           <li>Save and restart</li>
         </ol>
 
         <h3 className="font-bold text-lg text-gray-800 mt-6">MCU Section for USB Connection</h3>
         <CodeBlock language="ini">{`[mcu]
-# For BeamKlipper, the serial is usually auto-configured
-# If manual, it will be something like:
-serial: /dev/bus/usb/001/002
-# Or use VID:PID format (more reliable across reboots):
-# serial: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+# For Termux with direct USB connection:
+serial: /dev/ttyUSB0
+# Or if using /dev/ttyACM0:
+# serial: /dev/ttyACM0
+# Or if using Octo4a:
+# serial: /home/user/octo4a/serialpipe
 restart_method: command`}</CodeBlock>
 
         <Warning>
@@ -562,12 +612,12 @@ restart_method: command`}</CodeBlock>
         </Warning>
 
         <h3 className="font-bold text-lg text-gray-800 mt-6">Finding Your Tablet's IP Address</h3>
-        <p className="text-gray-700">On the tablet, go to <strong>Settings → WiFi → tap your connected network</strong> to see the IP address. Or check the BeamKlipper main screen which displays the URL.</p>
+        <p className="text-gray-700">On the tablet, go to <strong>Settings → WiFi → tap your connected network</strong> to see the IP address. Or run <code className="bg-gray-100 px-1 rounded">ifconfig</code> in Termux and look for wlan0.</p>
       </div>
     ),
   },
   {
-    id: 7,
+    id: 6,
     title: "Verify & Test",
     icon: "✅",
     content: (
@@ -578,9 +628,14 @@ restart_method: command`}</CodeBlock>
         <ol className="list-decimal list-inside space-y-2 text-gray-700">
           <li>Power on the Ender 3 V3 SE</li>
           <li>Connect the printer to the tablet via USB OTG</li>
-          <li>Open BeamKlipper — it should detect the printer</li>
-          <li>Click "Start" to launch Klipper</li>
-          <li>Open the web interface at <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;:8888/</code></li>
+          <li>In Termux, login to Debian and start services:
+            <CodeBlock>{`proot-distro login debian --bind /dev/bus/usb:/dev/bus/usb
+sudo chmod 777 /dev/ttyUSB0  # or /dev/ttyACM0
+sudo systemctl start klipper
+sudo systemctl start moonraker
+sudo systemctl start nginx`}</CodeBlock>
+          </li>
+          <li>Open the web interface at <code className="bg-gray-100 px-1 rounded">http://&lt;tablet-ip&gt;/</code></li>
           <li>Check that the status shows <strong>"Ready"</strong></li>
         </ol>
 
@@ -632,22 +687,24 @@ G1 E5 F100`}</CodeBlock>
     ),
   },
   {
-    id: 8,
+    id: 7,
     title: "Troubleshooting",
     icon: "🔍",
     content: (
       <div className="space-y-4">
-        <p className="text-gray-700">Common issues and solutions specific to the Samsung Galaxy Tab A 10.5 + Klipper setup.</p>
+        <p className="text-gray-700">Common issues and solutions specific to the Samsung Galaxy Tab A 10.5 + Termux + Klipper setup.</p>
 
         <div className="space-y-4">
           <div className="border border-gray-200 rounded-lg p-4">
             <h4 className="font-bold text-red-700">❌ "MCU: Unable to connect"</h4>
             <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
               <li>Check OTG connection — make sure the cable is working</li>
-              <li>In BeamKlipper, go to "Devices" tab and verify the serial port is detected</li>
+              <li>In Termux, verify the serial device exists: <code className="bg-gray-100 px-1 rounded">ls /dev/ttyUSB*</code></li>
+              <li>Check USB permissions: <code className="bg-gray-100 px-1 rounded">sudo chmod 777 /dev/ttyUSB0</code></li>
               <li>Try unplugging and replugging the USB cable</li>
-              <li>Ensure the printer firmware matches the BeamKlipper version</li>
-              <li>Restart BeamKlipper and the printer</li>
+              <li>Ensure the printer firmware was flashed correctly</li>
+              <li>Restart Klipper: <code className="bg-gray-100 px-1 rounded">sudo systemctl restart klipper</code></li>
+              <li>Check Klipper logs: <code className="bg-gray-100 px-1 rounded">tail -f ~/printer_data/logs/klippy.log</code></li>
             </ul>
           </div>
 
@@ -662,14 +719,14 @@ G1 E5 F100`}</CodeBlock>
           </div>
 
           <div className="border border-gray-200 rounded-lg p-4">
-            <h4 className="font-bold text-red-700">❌ BeamKlipper gets killed in background</h4>
+            <h4 className="font-bold text-red-700">❌ Termux/Debian gets killed in background</h4>
             <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
-              <li>Disable battery optimization for BeamKlipper (Settings → Apps → Battery → Don't optimize)</li>
-              <li>Set BeamKlipper as the default launcher</li>
+              <li>Disable battery optimization for Termux (Settings → Apps → Termux → Battery → Don't optimize)</li>
+              <li>Run <code className="bg-gray-100 px-1 rounded">termux-wake-lock</code> in Termux</li>
               <li>Install "Wake Lock - CPU Awake" app from Play Store</li>
               <li>Run <code className="bg-gray-100 px-1 rounded">dumpsys deviceidle disable</code> in Termux</li>
               <li>Enable "Stay Awake" in Developer Options</li>
-              <li>Some Samsung devices have aggressive task killing — check "Recent apps" → lock BeamKlipper</li>
+              <li>Some Samsung devices have aggressive task killing — check "Recent apps" → lock Termux</li>
             </ul>
           </div>
 
@@ -689,8 +746,30 @@ G1 E5 F100`}</CodeBlock>
             <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
               <li>Ensure tablet and other devices are on the same WiFi network</li>
               <li>Check the tablet's IP address (Settings → WiFi → network details)</li>
-              <li>Port 8888 must be accessible — check if a firewall is blocking it</li>
-              <li>Try accessing from the tablet itself: <code className="bg-gray-100 px-1 rounded">http://localhost:8888/</code></li>
+              <li>Verify nginx is running: <code className="bg-gray-100 px-1 rounded">sudo systemctl status nginx</code></li>
+              <li>Check nginx config: <code className="bg-gray-100 px-1 rounded">sudo nginx -t</code></li>
+              <li>Try accessing from the tablet itself: <code className="bg-gray-100 px-1 rounded">http://localhost/</code></li>
+              <li>Check nginx error log: <code className="bg-gray-100 px-1 rounded">cat /var/log/nginx/error.log</code></li>
+            </ul>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <h4 className="font-bold text-red-700">❌ proot-distro login fails</h4>
+            <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
+              <li>Try <code className="bg-gray-100 px-1 rounded">proot-distro remove debian</code> then reinstall</li>
+              <li>Check available storage: <code className="bg-gray-100 px-1 rounded">df -h</code></li>
+              <li>Update proot-distro: <code className="bg-gray-100 px-1 rounded">pkg upgrade proot-distro</code></li>
+              <li>Try with <code className="bg-gray-100 px-1 rounded">--fix-low-uid</code> flag</li>
+            </ul>
+          </div>
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <h4 className="font-bold text-red-700">❌ KIAUH installation fails</h4>
+            <ul className="list-disc list-inside text-sm text-gray-700 mt-2 space-y-1">
+              <li>Ensure all dependencies are installed (see Step 4)</li>
+              <li>Check Python version: <code className="bg-gray-100 px-1 rounded">python3 --version</code> (needs 3.7+)</li>
+              <li>Try running KIAUH with <code className="bg-gray-100 px-1 rounded">sudo</code></li>
+              <li>Check KIAUH logs in <code className="bg-gray-100 px-1 rounded">~/kiauh_logs/</code></li>
             </ul>
           </div>
 
@@ -789,9 +868,9 @@ export default function App() {
               </div>
             </div>
             <div className="hidden md:flex items-center gap-3 text-sm">
-              <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-medium">STM32F103</span>
+              <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-medium">GD303RET6</span>
               <span className="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs font-medium">SWD Flash</span>
-              <span className="bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full text-xs font-medium">Android Host</span>
+              <span className="bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full text-xs font-medium">Termux + proot</span>
             </div>
           </div>
         </div>
@@ -1021,15 +1100,15 @@ export default function App() {
                 </li>
                 <li className="flex gap-2">
                   <span className="font-bold">4.</span>
-                  <span>On your Galaxy Tab → <strong>download BeamKlipper APK</strong> from <a href="https://github.com/utkabobr/BeamKlipper/releases/latest" className="underline font-bold" target="_blank" rel="noopener">github.com/utkabobr/BeamKlipper/releases</a> and install it now so it's ready.</span>
+                  <span>On your Galaxy Tab → <strong>install Termux from F-Droid</strong> (NOT Play Store). Also install Termux:API, Termux:Boot from F-Droid. See <strong>Step 3</strong> for full instructions.</span>
                 </li>
                 <li className="flex gap-2">
                   <span className="font-bold">5.</span>
-                  <span>Download the prebuilt firmware from <a href="https://github.com/utkabobr/klipper/tree/prebuilt-v0.12.0" className="underline font-bold" target="_blank" rel="noopener">utkabobr/klipper prebuilt</a> and save it to your PC — you'll need it for the ST-Link flash.</span>
+                  <span>In Termux, run <code className="bg-emerald-700 px-1 rounded">pkg update && pkg upgrade</code> and <code className="bg-emerald-700 px-1 rounded">pkg install proot-distro</code> to get started.</span>
                 </li>
                 <li className="flex gap-2">
                   <span className="font-bold">6.</span>
-                  <span>If you prefer to build your own firmware (recommended for GD303RET6): On a PC, clone Klipper, run <code className="bg-emerald-700 px-1 rounded">make menuconfig</code> with the settings shown in Step 5 (including <strong>"Disable SWD at startup"</strong>), then <code className="bg-emerald-700 px-1 rounded">make</code>.</span>
+                  <span>Download the prebuilt firmware from <a href="https://github.com/utkabobr/klipper/tree/prebuilt-v0.12.0" className="underline font-bold" target="_blank" rel="noopener">utkabobr/klipper prebuilt</a> and save it to your PC — you'll need it for the ST-Link flash. Or build your own in Termux (see Step 3).</span>
                 </li>
               </ol>
             </div>
@@ -1038,14 +1117,14 @@ export default function App() {
           {/* Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-              <div className="text-3xl mb-2">📱</div>
-              <h3 className="font-bold text-gray-800">Tablet as Host</h3>
-              <p className="text-sm text-gray-600 mt-1">Your SM-T395 replaces the Raspberry Pi. Built-in touchscreen, WiFi, battery backup, and zero extra cost.</p>
+              <div className="text-3xl mb-2">🐧</div>
+              <h3 className="font-bold text-gray-800">Termux + proot</h3>
+              <p className="text-sm text-gray-600 mt-1">Full Linux environment on your tablet. Complete control, build firmware, SSH access, no restrictions.</p>
             </div>
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
               <div className="text-3xl mb-2">⚡</div>
-              <h3 className="font-bold text-gray-800">BeamKlipper</h3>
-              <p className="text-sm text-gray-600 mt-1">One app does it all: Klipper + Moonraker + Fluidd/Mainsail. No root, no Linux knowledge needed.</p>
+              <h3 className="font-bold text-gray-800">Full Klipper Stack</h3>
+              <p className="text-sm text-gray-600 mt-1">Klipper + Moonraker + Mainsail/Fluidd running in Debian proot. Access via web browser.</p>
             </div>
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
               <div className="text-3xl mb-2">🔧</div>
@@ -1061,8 +1140,8 @@ export default function App() {
               <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 w-48">
                 <div className="text-3xl mb-2">📱</div>
                 <div className="font-bold text-blue-800 text-sm">Galaxy Tab SM-T395</div>
-                <div className="text-xs text-blue-600 mt-1">BeamKlipper App</div>
-                <div className="text-xs text-gray-500">Klipper + Moonraker + Fluidd</div>
+                <div className="text-xs text-blue-600 mt-1">Termux + proot Debian</div>
+                <div className="text-xs text-gray-500">Klipper + Moonraker + Mainsail</div>
               </div>
               <div className="flex flex-col items-center">
                 <div className="text-xs text-gray-500 mb-1">WiFi / USB OTG</div>
