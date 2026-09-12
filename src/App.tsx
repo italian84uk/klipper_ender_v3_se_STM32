@@ -1110,108 +1110,302 @@ export default function App() {
                   <p className="text-sm text-yellow-900"><strong>⚠️ Important:</strong> You need a Windows/Mac/Linux PC for this step. Borrow one if needed. You only do this once.</p>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="bg-white rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">1</span>
-                      <div>
-                        <div className="font-bold text-gray-800">Download Firmware on PC</div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          Go to <a href="https://github.com/0xD34D/klipper_ender3_v3_se" className="text-blue-600 underline" target="_blank" rel="noopener">github.com/0xD34D/klipper_ender3_v3_se</a> and download the latest release, or build your own (see below).
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1">Or use the SD card method instead (skip to Step 5 below)</div>
+                {/* METHOD A: BUILD FIRMWARE ON PC */}
+                <div className="bg-white rounded-xl p-5 border-2 border-green-200">
+                  <h4 className="font-bold text-lg text-green-800 mb-3">📥 Step 1: Get the Firmware</h4>
+                  <p className="text-sm text-gray-700 mb-3">You have two options to get the firmware file (klipper.bin):</p>
+                  
+                  <div className="space-y-4">
+                    {/* Option A: Download Prebuilt */}
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">Option A: Download Prebuilt Firmware (Easiest)</div>
+                      <p className="text-sm text-gray-600 mb-2">Download a pre-compiled firmware for your CR4NS200320C14 board:</p>
+                      <ol className="list-decimal list-inside text-sm text-gray-700 space-y-2">
+                        <li>
+                          Go to <a href="https://github.com/0xD34D/klipper_ender3_v3_se/releases" className="text-blue-600 underline font-medium" target="_blank" rel="noopener">0xD34D Klipper Fork Releases</a>
+                        </li>
+                        <li>Download the latest <strong>klipper.bin</strong> file</li>
+                        <li>Save it to your PC's Desktop or Downloads folder</li>
+                      </ol>
+                      <div className="bg-blue-50 border border-blue-200 rounded p-2 mt-2">
+                        <p className="text-xs text-blue-800"><strong>💡 Note:</strong> The 0xD34D fork includes support for PRtouch (auto Z-offset) which is specific to the Ender 3 V3 SE.</p>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="bg-white rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">2</span>
-                      <div>
-                        <div className="font-bold text-gray-800">Install STM32CubeProgrammer on PC</div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          Download from ST's website: <a href="https://www.st.com/en/development-tools/stm32cubeprog.html" className="text-blue-600 underline" target="_blank" rel="noopener">stm32cubeprog</a> (requires free ST account)
+                    {/* Option B: Build from Source */}
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">Option B: Build Firmware from Source (Recommended for GD303RET6)</div>
+                      <p className="text-sm text-gray-600 mb-2">Build your own firmware with the correct settings for your GD303RET6 chip:</p>
+                      
+                      <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-xs overflow-x-auto space-y-1">
+                        <div className="text-gray-500"># Install Git for Windows from https://git-scm.com/download/win</div>
+                        <div className="text-gray-500"># Then open Command Prompt or PowerShell and run:</div>
+                        <div>&nbsp;</div>
+                        <div>git clone https://github.com/Klipper3d/klipper.git</div>
+                        <div>cd klipper</div>
+                        <div>&nbsp;</div>
+                        <div className="text-gray-500"># Install Python 3 from https://www.python.org/downloads/</div>
+                        <div className="text-gray-500"># Then install dependencies:</div>
+                        <div>pip install -r scripts/python_requirements.txt</div>
+                        <div>&nbsp;</div>
+                        <div className="text-gray-500"># Open the firmware configuration menu:</div>
+                        <div>make menuconfig</div>
+                      </div>
+
+                      <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4 mt-4">
+                        <div className="font-bold text-yellow-900 mb-2">🔧 EXACT menuconfig Settings for CR4NS200320C14 (GD303RET6):</div>
+                        <div className="bg-gray-900 text-white p-3 rounded font-mono text-xs space-y-1">
+                          <div><span className="text-cyan-400">Micro-controller architecture:</span> <span className="text-green-400">STMicroelectronics STM32</span></div>
+                          <div><span className="text-cyan-400">Processor model:</span> <span className="text-green-400">STM32F103</span></div>
+                          <div><span className="text-yellow-400 font-bold">[*] Disable SWD at startup (for GigaDevice stm32f103 clones)</span></div>
+                          <div><span className="text-cyan-400">Bootloader offset:</span> <span className="text-green-400">No bootloader</span></div>
+                          <div><span className="text-cyan-400">Clock Reference:</span> <span className="text-green-400">8 MHz crystal</span></div>
+                          <div><span className="text-cyan-400">Communication interface:</span> <span className="text-green-400">USB (on PA11/PA12)</span></div>
+                        </div>
+                        <div className="text-xs text-yellow-800 mt-2">
+                          <strong>Navigation:</strong> Use arrow keys to move, Space to select/deselect, Enter to confirm, Q to quit (then Y to save)
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                  <div className="bg-white rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">3</span>
-                      <div>
-                        <div className="font-bold text-gray-800">Connect ST-Link to Printer Board</div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          Use jumper wires to connect:
-                          <div className="bg-gray-100 p-2 rounded mt-2 text-xs font-mono">
-                            <div>ST-Link 3.3V → Board 3.3V</div>
-                            <div>ST-Link SWDIO → Board SWDIO</div>
-                            <div>ST-Link GND → Board GND</div>
-                            <div>ST-Link SWCLK → Board SWCLK</div>
-                          </div>
-                        </div>
-                        <div className="text-xs text-red-600 mt-2">⚠️ DO NOT connect 5V! Only use 3.3V!</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">4</span>
-                      <div>
-                        <div className="font-bold text-gray-800">Flash Firmware</div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          <ol className="list-decimal list-inside space-y-1">
-                            <li>Connect ST-Link to PC via USB</li>
-                            <li>Power on the printer (keep ST-Link connected)</li>
-                            <li>Open STM32CubeProgrammer</li>
-                            <li>Select <strong>ST-LINK</strong> as connection type</li>
-                            <li>Click <strong>Connect</strong></li>
-                            <li>Go to <strong>Erasing & Programming</strong> tab</li>
-                            <li>Browse to your <strong>klipper.bin</strong> file</li>
-                            <li>Set start address: <strong>0x08000000</strong></li>
-                            <li>Check <strong>"Run after programming"</strong></li>
-                            <li>Click <strong>Start Programming</strong></li>
-                            <li>Wait for completion (1-2 minutes)</li>
-                          </ol>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">5</span>
-                      <div>
-                        <div className="font-bold text-gray-800">Alternative: SD Card Method (No PC Needed)</div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          If you can't find SWD pins or don't have a PC:
-                          <ol className="list-decimal list-inside space-y-1 mt-2">
-                            <li>Format microSD as <strong>FAT32</strong> with <strong>4096-byte</strong> cluster size</li>
-                            <li>Copy <strong>klipper.bin</strong> to SD card, rename to <strong>firmware.bin</strong></li>
-                            <li>Power off printer</li>
-                            <li>Insert SD card</li>
-                            <li>Power on and wait 2-3 minutes</li>
-                            <li>Power off, remove SD card, power on again</li>
-                          </ol>
-                        </div>
-                        <div className="text-xs text-gray-500 mt-2">⚠️ SD card method can be unreliable on CR4NS200320C14. May need multiple attempts.</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">6</span>
-                      <div>
-                        <div className="font-bold text-gray-800">Disconnect ST-Link</div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          After successful flash, disconnect ST-Link wires and reassemble the printer.
-                        </div>
+                      <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-xs overflow-x-auto space-y-1 mt-4">
+                        <div className="text-gray-500"># After saving the config, compile the firmware:</div>
+                        <div>make</div>
+                        <div>&nbsp;</div>
+                        <div className="text-gray-500"># The compiled firmware will be at:</div>
+                        <div className="text-gray-500"># klipper/out/klipper.bin</div>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                {/* STEP 2: INSTALL STM32CUBEPROGRAMMER */}
+                <div className="bg-white rounded-xl p-5 border-2 border-green-200">
+                  <h4 className="font-bold text-lg text-green-800 mb-3">💻 Step 2: Install STM32CubeProgrammer on PC</h4>
+                  
+                  <div className="space-y-4">
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">2a. Create ST Account (Free)</div>
+                      <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                        <li>Go to <a href="https://www.st.com/content/st_com/en/support/resources/my-st-experience/create-account.html" className="text-blue-600 underline" target="_blank" rel="noopener">ST Microelectronics Account Creation</a></li>
+                        <li>Fill in your details and create a free account</li>
+                        <li>Verify your email address</li>
+                      </ol>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">2b. Download STM32CubeProgrammer</div>
+                      <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                        <li>Go to <a href="https://www.st.com/en/development-tools/stm32cubeprog.html" className="text-blue-600 underline" target="_blank" rel="noopener">STM32CubeProgrammer Download Page</a></li>
+                        <li>Scroll down to <strong>"Get Software"</strong> section</li>
+                        <li>Select your OS (Windows 64-bit recommended)</li>
+                        <li>Click <strong>"Get Software"</strong> button</li>
+                        <li>Accept the license agreement</li>
+                        <li>Download the ZIP file (about 300MB)</li>
+                      </ol>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">2c. Install STM32CubeProgrammer</div>
+                      <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                        <li>Extract the downloaded ZIP file</li>
+                        <li>Run <strong>SetupSTM32CubeProgrammer-2.x.x.exe</strong></li>
+                        <li>Follow the installation wizard (accept all defaults)</li>
+                        <li>Installation completes in about 2 minutes</li>
+                      </ol>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">2d. Install ST-Link USB Driver</div>
+                      <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                        <li>Plug your ST-Link V2 into the PC's USB port</li>
+                        <li>Windows will try to install drivers automatically</li>
+                        <li>If it fails, go to <a href="https://www.st.com/en/development-tools/stsw-link009.html" className="text-blue-600 underline" target="_blank" rel="noopener">ST-Link Driver Download</a></li>
+                        <li>Download and install the <strong>STSW-LINK009</strong> driver</li>
+                        <li>After installation, ST-Link should appear in Device Manager</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+
+                {/* STEP 3: CONNECT ST-LINK TO PRINTER */}
+                <div className="bg-white rounded-xl p-5 border-2 border-green-200">
+                  <h4 className="font-bold text-lg text-green-800 mb-3">🔌 Step 3: Connect ST-Link V2 to Printer Board</h4>
+                  
+                  <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-red-900 font-bold">⚠️ SAFETY FIRST:</p>
+                    <ul className="text-sm text-red-800 list-disc list-inside mt-2 space-y-1">
+                      <li>Turn OFF and unplug the printer from power</li>
+                      <li>Remove the bottom cover (4-6 screws)</li>
+                      <li>Locate the mainboard (CR4NS200320C14)</li>
+                      <li>Find the SWD pins near the GD303RET6 chip</li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <div className="font-bold text-blue-900 mb-2">📍 Finding SWD Pins on CR4NS200320C14:</div>
+                    <ul className="text-sm text-blue-800 list-disc list-inside space-y-1">
+                      <li>Look for a small 4-pin header labeled "SWD", "DEBUG", or "JTAG"</li>
+                      <li>Usually located near the edge of the board, close to the GD303RET6 chip</li>
+                      <li>If no header exists, look for test pads (small copper circles) labeled:</li>
+                      <li className="ml-4">• <strong>SWDIO</strong> (Serial Wire Debug I/O)</li>
+                      <li className="ml-4">• <strong>SWCLK</strong> (Serial Wire Clock)</li>
+                      <li className="ml-4">• <strong>GND</strong> (Ground)</li>
+                      <li className="ml-4">• <strong>3.3V</strong> (Power - optional, can power board separately)</li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-gray-900 text-white p-4 rounded-lg">
+                    <div className="font-bold text-cyan-400 mb-3 text-center">ST-Link V2 to Printer Board Wiring</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-mono">
+                      <div className="space-y-2">
+                        <div className="bg-gray-800 p-2 rounded">
+                          <span className="text-yellow-400">ST-Link Pin 1 (3.3V)</span> → <span className="text-green-400">Board 3.3V</span>
+                        </div>
+                        <div className="bg-gray-800 p-2 rounded">
+                          <span className="text-yellow-400">ST-Link Pin 2 (SWDIO)</span> → <span className="text-green-400">Board SWDIO</span>
+                        </div>
+                        <div className="bg-gray-800 p-2 rounded">
+                          <span className="text-yellow-400">ST-Link Pin 3 (GND)</span> → <span className="text-green-400">Board GND</span>
+                        </div>
+                        <div className="bg-gray-800 p-2 rounded">
+                          <span className="text-yellow-400">ST-Link Pin 4 (SWCLK)</span> → <span className="text-green-400">Board SWCLK</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-4xl mb-2">🔌</div>
+                          <div className="text-xs text-gray-400">Use female-to-female jumper wires</div>
+                          <div className="text-xs text-gray-400">Keep wires short (&lt;15cm)</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-3 mt-4">
+                    <p className="text-sm text-yellow-900"><strong>💡 Tip:</strong> If your board has test pads instead of a header, you can temporarily hold the jumper wire pins against the pads during flashing, or solder pin headers for a permanent connection.</p>
+                  </div>
+                </div>
+
+                {/* STEP 4: FLASH FIRMWARE */}
+                <div className="bg-white rounded-xl p-5 border-2 border-green-200">
+                  <h4 className="font-bold text-lg text-green-800 mb-3">⚡ Step 4: Flash the Firmware</h4>
+                  
+                  <div className="space-y-4">
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">4a. Power On the Printer</div>
+                      <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                        <li>Keep ST-Link V2 connected to the board</li>
+                        <li>Plug the printer back into power</li>
+                        <li>Turn on the printer</li>
+                        <li>The board should now be powered (LEDs may light up)</li>
+                      </ol>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">4b. Open STM32CubeProgrammer</div>
+                      <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                        <li>Launch STM32CubeProgrammer on your PC</li>
+                        <li>On the right side, you'll see connection options</li>
+                        <li>Select <strong>"ST-LINK"</strong> from the dropdown</li>
+                        <li>Click the <strong>"Refresh"</strong> button next to Serial number</li>
+                        <li>Your ST-Link should appear in the list</li>
+                        <li>Click <strong>"Connect"</strong> button</li>
+                      </ol>
+                      <div className="bg-green-50 border border-green-200 rounded p-2 mt-2">
+                        <p className="text-xs text-green-800"><strong>✓ Success:</strong> You should see "Connected" status and chip information (STM32F103)</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">4c. Flash the Firmware</div>
+                      <ol className="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                        <li>Click the <strong>"Erasing & Programming"</strong> icon (looks like a chip with an arrow)</li>
+                        <li>Click <strong>"Open file"</strong> button</li>
+                        <li>Browse to your <strong>klipper.bin</strong> file (from Step 1)</li>
+                        <li>Set <strong>Start Address</strong> to: <code className="bg-gray-200 px-2 py-1 rounded font-mono text-xs">0x08000000</code></li>
+                        <li>Check the box: <strong>"Run after programming"</strong></li>
+                        <li>Check the box: <strong>"Verify programming"</strong></li>
+                        <li>Click <strong>"Start Programming"</strong> button</li>
+                      </ol>
+                      <div className="bg-blue-50 border border-blue-200 rounded p-3 mt-3">
+                        <p className="text-sm text-blue-800"><strong>⏱️ Wait 1-2 minutes</strong> for the flashing process to complete. You'll see a progress bar.</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="font-bold text-gray-800 mb-2">4d. Verify Success</div>
+                      <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                        <li>You should see <strong>"Programming Complete"</strong> message</li>
+                        <li>The printer screen may show a screensaver (normal for Klipper)</li>
+                        <li>Disconnect ST-Link V2 from the board</li>
+                        <li>Reassemble the printer (put the cover back on)</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="bg-red-50 border border-red-300 rounded-lg p-3 mt-4">
+                    <p className="text-sm text-red-900"><strong>❌ If flashing fails:</strong></p>
+                    <ul className="text-xs text-red-800 list-disc list-inside mt-1 space-y-1">
+                      <li>Check all wire connections are secure</li>
+                      <li>Try "Connect under reset" mode in STM32CubeProgrammer</li>
+                      <li>Lower the connection speed to 4 MHz</li>
+                      <li>Make sure the board is powered on</li>
+                      <li>Try a different USB port for the ST-Link</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* ALTERNATIVE: SD CARD METHOD */}
+                <div className="bg-white rounded-xl p-5 border-2 border-orange-200">
+                  <h4 className="font-bold text-lg text-orange-800 mb-3">🔄 Alternative: SD Card Method (No ST-Link Needed)</h4>
+                  <p className="text-sm text-gray-700 mb-3">If you can't find the SWD pins or don't have a PC, try the SD card method:</p>
+                  
+                  <div className="space-y-3">
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="font-bold text-gray-800 text-sm mb-2">Step 1: Format SD Card</div>
+                      <ul className="text-xs text-gray-700 list-disc list-inside space-y-1">
+                        <li>Use a microSD card (8GB or smaller recommended)</li>
+                        <li>Format as <strong>FAT32</strong> filesystem</li>
+                        <li>Set allocation unit size to <strong>4096 bytes</strong> (critical!)</li>
+                        <li>On Windows: Use <a href="https://ridgecrop.co.uk/index.htm?guiformat.htm" className="text-blue-600 underline" target="_blank" rel="noopener">GUIFormat</a> tool for exact formatting</li>
+                      </ul>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="font-bold text-gray-800 text-sm mb-2">Step 2: Copy Firmware</div>
+                      <ul className="text-xs text-gray-700 list-disc list-inside space-y-1">
+                        <li>Copy your <strong>klipper.bin</strong> file to the SD card root directory</li>
+                        <li>Rename it to <strong>firmware.bin</strong> or <strong>firmware.cur</strong></li>
+                        <li>Eject the SD card safely</li>
+                      </ul>
+                    </div>
+
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="font-bold text-gray-800 text-sm mb-2">Step 3: Flash the Firmware</div>
+                      <ol className="text-xs text-gray-700 list-decimal list-inside space-y-1">
+                        <li>Turn OFF the printer</li>
+                        <li>Insert the SD card into the printer's SD slot</li>
+                        <li>Turn ON the printer</li>
+                        <li>Wait 2-3 minutes (screen may show screensaver)</li>
+                        <li>Turn OFF the printer</li>
+                        <li>Remove the SD card</li>
+                        <li>Turn ON the printer again</li>
+                      </ol>
+                    </div>
+
+                    <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-3">
+                      <p className="text-xs text-yellow-900"><strong>⚠️ SD Card Method Notes:</strong></p>
+                      <ul className="text-xs text-yellow-800 list-disc list-inside mt-1 space-y-1">
+                        <li>This method can be unreliable on CR4NS200320C14 boards</li>
+                        <li>May need to try 3-5 times before it works</li>
+                        <li>Clean the SD card slot with compressed air if it fails</li>
+                        <li>Try a different SD card if problems persist</li>
+                        <li>The ST-Link method is much more reliable</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
 
