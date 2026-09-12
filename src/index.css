@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Code block styling */
+pre code {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+@media (min-width: 640px) {
+  pre code {
+    white-space: pre;
+    word-break: normal;
+  }
+}
+
+/* Smooth transitions for step sections */
+section {
+  transition: box-shadow 0.3s ease;
+}
+
+section:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile bottom padding to account for fixed nav */
+@media (max-width: 1023px) {
+  main {
+    padding-bottom: 80px !important;
+  }
+}
