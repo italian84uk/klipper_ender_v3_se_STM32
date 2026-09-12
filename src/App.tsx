@@ -163,9 +163,9 @@ const steps: Step[] = [
           <li><strong>Ender 3 V3 SE</strong> 3D printer</li>
         </ul>
 
-        <Warning>
-          <strong>Important:</strong> The Ender 3 V3 SE mainboard (CR4NS200320C13) uses either an <strong>STM32F103</strong> or <strong>GD32F303RET6</strong> (a GigaDevice clone). Check the chip marking on your board. If you have the GD32 variant, you'll need to enable "Disable SWD at startup" in the firmware config.
-        </Warning>
+        <Info>
+          <strong>Your board: CR4NS200320C14 with GD303RET6 chip.</strong> This is a GigaDevice clone of STM32F103. You MUST enable "Disable SWD at startup" in the firmware config, or the firmware won't work after the first boot. See Step 5 for exact settings.
+        </Info>
 
         <Info>
           <strong>Why use the Galaxy Tab as host?</strong> The SM-T395 has a 1.8GHz octa-core processor and 3GB RAM — more than enough to run Klipper. Plus, you get a built-in touchscreen display for KlipperScreen, WiFi, and a large battery for UPS-like behavior during power outages.
@@ -450,26 +450,63 @@ openocd -f interface/stlink.cfg -c "transport select hla_swd" \\
         <h3 className="font-bold text-lg text-gray-800 mt-6">ST-Link V2 Connection to Printer Board</h3>
         <PinDiagram />
 
-        <h3 className="font-bold text-lg text-gray-800 mt-6">Firmware Configuration</h3>
-        <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm space-y-1">
-          <div className="text-cyan-400"># For STM32F103 (direct ST-Link flash, no bootloader):</div>
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Finding SWD Pins on CR4NS200320C14</h3>
+        <p className="text-gray-700">On your CR4NS200320C14 board, look for the SWD pins:</p>
+        <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <li>Near the <strong>GD303RET6</strong> chip (the large 64-pin square IC, typically labeled "GD32" or "303")</li>
+          <li>Look for a small <strong>4-pin header</strong> labeled "SWD", "DEBUG", or "JTAG" — usually near the edge of the board</li>
+          <li>Some boards have <strong>test pads</strong> (small copper circles) instead of a header — you may need to solder pin headers or use pogo pins</li>
+          <li>The pins should be labeled: <strong>SWDIO</strong>, <strong>SWCLK</strong>, <strong>GND</strong>, and <strong>3.3V</strong></li>
+          <li>If you can't find them, look for the GD303RET6 datasheet — SWDIO is on pin PA13, SWCLK on PA14</li>
+        </ul>
+
+        <Tip>
+          <strong>Alternative: SD card method.</strong> The CR4NS200320C14 board supports SD card firmware flashing. If you can't find the SWD pins, you can flash via SD card instead (rename klipper.bin to firmware.bin, format SD as FAT32 with 4096-byte clusters). However, the ST-Link method is more reliable.
+        </Tip>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Firmware Configuration for CR4NS200320C14</h3>
+        
+        <Warning>
+          <strong>CRITICAL for your board:</strong> The GD303RET6 chip is a GigaDevice clone. You MUST enable "Disable SWD at startup" or the firmware won't work properly after the first boot!
+        </Warning>
+
+        <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm space-y-1 mt-4">
+          <div className="text-cyan-400"># For your CR4NS200320C14 board (GD303RET6):</div>
           <div>Micro-controller architecture: <span className="text-green-400">STMicroelectronics STM32</span></div>
           <div>Processor model: <span className="text-green-400">STM32F103</span></div>
+          <div><span className="text-yellow-400 font-bold">[*] Disable SWD at startup (for GigaDevice stm32f103 clones)</span></div>
           <div>Bootloader offset: <span className="text-green-400">No bootloader</span></div>
           <div>Communication interface: <span className="text-green-400">USB (on PA11/PA12)</span></div>
         </div>
 
-        <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm space-y-1 mt-4">
-          <div className="text-cyan-400"># For GD32F303RET6 variant:</div>
-          <div>Micro-controller architecture: <span className="text-green-400">STMicroelectronics STM32</span></div>
-          <div>Processor model: <span className="text-green-400">STM32F103</span></div>
-          <div><span className="text-yellow-400">[*] Disable SWD at startup (for GigaDevice clones)</span></div>
-          <div>Bootloader offset: <span className="text-green-400">No bootloader</span></div>
-          <div>Communication interface: <span className="text-green-400">USB (on PA11/PA12)</span></div>
-        </div>
+        <Info>
+          <strong>Why "Disable SWD at startup"?</strong> The GD303RET6 chip has a quirk where it tries to use SWD pins (PA13/PA14) for other purposes after boot. Enabling this option prevents conflicts and ensures stable operation.
+        </Info>
 
         <Warning>
           <strong>SAFETY:</strong> Disconnect printer from power before connecting ST-Link. After flashing, disconnect ST-Link before powering on the printer.
+        </Warning>
+
+        <h3 className="font-bold text-lg text-gray-800 mt-6">Alternative: SD Card Flash Method (No ST-Link Needed)</h3>
+        <p className="text-gray-700">Your CR4NS200320C14 board supports SD card flashing. If you can't find the SWD pins or don't have a PC for STM32CubeProgrammer:</p>
+        <ol className="list-decimal list-inside space-y-2 text-gray-700">
+          <li>Format a microSD card as <strong>FAT32</strong> with <strong>4096-byte allocation unit size</strong></li>
+          <li>Copy <code className="bg-gray-100 px-1 rounded">klipper.bin</code> to the SD card and rename it to <code className="bg-gray-100 px-1 rounded">firmware.bin</code> or <code className="bg-gray-100 px-1 rounded">firmware.cur</code></li>
+          <li>Power off the printer</li>
+          <li>Insert the SD card into the printer's SD slot</li>
+          <li>Power on the printer and wait 2-3 minutes</li>
+          <li>The firmware should flash automatically (screen may show screensaver)</li>
+          <li>Power off, remove the SD card, then power on again</li>
+        </ol>
+
+        <Warning>
+          <strong>SD card method can be finicky:</strong> The CR4NS200320C14's SD card slot can be unreliable. If it doesn't work, try:
+          <ul className="list-disc list-inside mt-2 space-y-1">
+            <li>Cleaning the SD card slot with compressed air</li>
+            <li>Using a different SD card (smaller is better, ≤8GB recommended)</li>
+            <li>Reformatting with exact 4096-byte cluster size</li>
+            <li>Trying multiple times — some users report it takes 3-5 attempts</li>
+          </ul>
         </Warning>
 
         <Tip>
@@ -521,7 +558,7 @@ serial: /dev/bus/usb/001/002
 restart_method: command`}</CodeBlock>
 
         <Warning>
-          <strong>Pin mappings vary!</strong> Always use the community-verified config files linked above. The CR4NS200320C13 board has specific pin assignments that differ from other Ender 3 boards.
+          <strong>Pin mappings vary!</strong> Always use the community-verified config files linked above. The CR4NS200320C14 board has specific pin assignments that differ from other Ender 3 boards.
         </Warning>
 
         <h3 className="font-bold text-lg text-gray-800 mt-6">Finding Your Tablet's IP Address</h3>
@@ -783,6 +820,33 @@ export default function App() {
             </div>
           </div>
 
+          {/* YOUR BOARD INFO */}
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-6 mb-6 shadow-md">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center text-2xl text-white">🔍</div>
+              <div>
+                <h2 className="text-2xl font-bold text-blue-900">Your Board: CR4NS200320C14</h2>
+                <p className="text-blue-700 text-sm">GD303RET6 chip detected — special firmware settings required</p>
+              </div>
+            </div>
+            <div className="bg-white rounded-xl p-4 border border-blue-200">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                  <div className="font-bold text-gray-700 mb-1">Mainboard</div>
+                  <div className="text-gray-600">CR4NS200320C14</div>
+                </div>
+                <div>
+                  <div className="font-bold text-gray-700 mb-1">Chip</div>
+                  <div className="text-gray-600">GD303RET6 (GigaDevice)</div>
+                </div>
+                <div>
+                  <div className="font-bold text-gray-700 mb-1">Critical Setting</div>
+                  <div className="text-red-600 font-medium">⚠️ Disable SWD at startup</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* START HERE - Action Plan */}
           <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-300 rounded-2xl p-6 mb-8 shadow-md">
             <div className="flex items-center gap-3 mb-4">
@@ -890,15 +954,15 @@ export default function App() {
                 <div className="flex gap-3 items-start">
                   <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">1</div>
                   <div>
-                    <div className="font-medium text-gray-800">Open your printer and check the mainboard chip</div>
-                    <div className="text-sm text-gray-600">Look at the big square chip. Is it <strong>STM32F103</strong> or <strong>GD32F303</strong>? Write this down — you'll need it later.</div>
+                    <div className="font-medium text-gray-800">✅ Board identified: CR4NS200320C14 with GD303RET6 chip</div>
+                    <div className="text-sm text-gray-600">You already know your chip! It's a <strong>GigaDevice GD303RET6</strong> clone. This requires the "Disable SWD at startup" firmware option.</div>
                   </div>
                 </div>
                 <div className="flex gap-3 items-start">
                   <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">2</div>
                   <div>
                     <div className="font-medium text-gray-800">Locate the SWD pins on the mainboard</div>
-                    <div className="text-sm text-gray-600">Look for a small header labeled "SWD" or "DEBUG" near the STM32 chip. Note the pin layout (SWDIO, SWCLK, GND, 3.3V).</div>
+                    <div className="text-sm text-gray-600">Look for a small header labeled "SWD" or "DEBUG" near the GD303RET6 chip. On the CR4NS200320C14, look for test pads or a header with SWDIO, SWCLK, GND, and 3.3V.</div>
                   </div>
                 </div>
                 <div className="flex gap-3 items-start">
@@ -953,15 +1017,19 @@ export default function App() {
                 </li>
                 <li className="flex gap-2">
                   <span className="font-bold">3.</span>
-                  <span>While waiting for hardware → <strong>open your printer</strong> and identify the mainboard chip (STM32F103 vs GD32F303) and locate the SWD pins.</span>
+                  <span>While waiting for hardware → <strong>open your printer</strong> and locate the SWD pins on the CR4NS200320C14 board. Look for a header or test pads labeled SWDIO, SWCLK, GND, 3.3V near the GD303RET6 chip.</span>
                 </li>
                 <li className="flex gap-2">
                   <span className="font-bold">4.</span>
-                  <span>On your tablet → <strong>download BeamKlipper APK</strong> from <a href="https://github.com/utkabobr/BeamKlipper/releases/latest" className="underline font-bold" target="_blank" rel="noopener">github.com/utkabobr/BeamKlipper/releases</a> and install it now so it's ready.</span>
+                  <span>On your Galaxy Tab → <strong>download BeamKlipper APK</strong> from <a href="https://github.com/utkabobr/BeamKlipper/releases/latest" className="underline font-bold" target="_blank" rel="noopener">github.com/utkabobr/BeamKlipper/releases</a> and install it now so it's ready.</span>
                 </li>
                 <li className="flex gap-2">
                   <span className="font-bold">5.</span>
                   <span>Download the prebuilt firmware from <a href="https://github.com/utkabobr/klipper/tree/prebuilt-v0.12.0" className="underline font-bold" target="_blank" rel="noopener">utkabobr/klipper prebuilt</a> and save it to your PC — you'll need it for the ST-Link flash.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="font-bold">6.</span>
+                  <span>If you prefer to build your own firmware (recommended for GD303RET6): On a PC, clone Klipper, run <code className="bg-emerald-700 px-1 rounded">make menuconfig</code> with the settings shown in Step 5 (including <strong>"Disable SWD at startup"</strong>), then <code className="bg-emerald-700 px-1 rounded">make</code>.</span>
                 </li>
               </ol>
             </div>
