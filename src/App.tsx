@@ -783,6 +783,190 @@ export default function App() {
             </div>
           </div>
 
+          {/* START HERE - Action Plan */}
+          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-300 rounded-2xl p-6 mb-8 shadow-md">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-2xl text-white">🚀</div>
+              <div>
+                <h2 className="text-2xl font-bold text-emerald-900">Start Here — Your Action Plan</h2>
+                <p className="text-emerald-700 text-sm">Follow this checklist in order. Check off each item as you go.</p>
+              </div>
+            </div>
+
+            {/* Shopping List */}
+            <div className="bg-white rounded-xl p-5 mb-5 border border-emerald-200">
+              <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <span className="text-xl">🛒</span> Step 1: Get the Hardware (if you don't have it yet)
+              </h3>
+              <div className="space-y-2">
+                <label className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-emerald-500" />
+                  <div>
+                    <span className="font-medium text-gray-800">ST-Link V2 programmer</span>
+                    <span className="text-sm text-gray-500 block">~$3-5 on AliExpress/Amazon. Search "ST-Link V2 mini". Clone versions work fine.</span>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-emerald-500" />
+                  <div>
+                    <span className="font-medium text-gray-800">MicroUSB OTG adapter</span>
+                    <span className="text-sm text-gray-500 block">Female USB-A to male microUSB. Needed to connect USB devices to your tablet.</span>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-emerald-500" />
+                  <div>
+                    <span className="font-medium text-gray-800">Powered USB hub OR OTG+Charge cable</span>
+                    <span className="text-sm text-gray-500 block">Your tablet needs to charge AND use OTG at the same time. A powered microUSB OTG hub with charging passthrough is easiest.</span>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-emerald-500" />
+                  <div>
+                    <span className="font-medium text-gray-800">Jumper wires (female-to-female)</span>
+                    <span className="text-sm text-gray-500 block">4-5 wires to connect ST-Link V2 to the printer's SWD pins.</span>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-emerald-500" />
+                  <div>
+                    <span className="font-medium text-gray-800">USB cable (A to B or A to C)</span>
+                    <span className="text-sm text-gray-500 block">To connect the printer to the tablet. Must be a DATA cable, not charge-only.</span>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-emerald-500" />
+                  <div>
+                    <span className="font-medium text-gray-800">A Windows/Mac/Linux PC (for initial firmware flash)</span>
+                    <span className="text-sm text-gray-500 block">You need a computer to run STM32CubeProgrammer for the one-time firmware flash via ST-Link. Borrow one if needed.</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {/* Decision Tree */}
+            <div className="bg-white rounded-xl p-5 mb-5 border border-emerald-200">
+              <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <span className="text-xl">🔀</span> Step 2: Choose Your Path
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="border-2 border-emerald-400 bg-emerald-50 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="bg-emerald-500 text-white text-xs px-2 py-1 rounded-full font-bold">RECOMMENDED</span>
+                  </div>
+                  <h4 className="font-bold text-emerald-900">Path A: BeamKlipper</h4>
+                  <p className="text-sm text-emerald-800 mt-1">Easiest. No root. Install one APK, done.</p>
+                  <ul className="text-xs text-emerald-700 mt-2 space-y-1 list-disc list-inside">
+                    <li>No Linux knowledge needed</li>
+                    <li>Works on stock Android</li>
+                    <li>Can't build firmware on device</li>
+                    <li>Best for most users</li>
+                  </ul>
+                  <div className="mt-3 text-xs font-bold text-emerald-900">Choose this if: you just want it to work.</div>
+                </div>
+                <div className="border border-gray-300 bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="bg-gray-500 text-white text-xs px-2 py-1 rounded-full font-bold">ADVANCED</span>
+                  </div>
+                  <h4 className="font-bold text-gray-800">Path B: Termux + proot</h4>
+                  <p className="text-sm text-gray-600 mt-1">More control. Build firmware on device.</p>
+                  <ul className="text-xs text-gray-600 mt-2 space-y-1 list-disc list-inside">
+                    <li>Full Linux environment</li>
+                    <li>Can build firmware on tablet</li>
+                    <li>SSH access</li>
+                    <li>More complex setup</li>
+                  </ul>
+                  <div className="mt-3 text-xs font-bold text-gray-700">Choose this if: you want full control.</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Steps */}
+            <div className="bg-white rounded-xl p-5 border border-emerald-200">
+              <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <span className="text-xl">✅</span> Step 3: Do These In Order
+              </h3>
+              <div className="space-y-3">
+                <div className="flex gap-3 items-start">
+                  <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">1</div>
+                  <div>
+                    <div className="font-medium text-gray-800">Open your printer and check the mainboard chip</div>
+                    <div className="text-sm text-gray-600">Look at the big square chip. Is it <strong>STM32F103</strong> or <strong>GD32F303</strong>? Write this down — you'll need it later.</div>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">2</div>
+                  <div>
+                    <div className="font-medium text-gray-800">Locate the SWD pins on the mainboard</div>
+                    <div className="text-sm text-gray-600">Look for a small header labeled "SWD" or "DEBUG" near the STM32 chip. Note the pin layout (SWDIO, SWCLK, GND, 3.3V).</div>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">3</div>
+                  <div>
+                    <div className="font-medium text-gray-800">Flash Klipper firmware via ST-Link V2 (using a PC)</div>
+                    <div className="text-sm text-gray-600">Connect ST-Link → SWD pins → PC. Use STM32CubeProgrammer to flash the prebuilt firmware.bin. See <strong>Step 5</strong> below for details.</div>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">4</div>
+                  <div>
+                    <div className="font-medium text-gray-800">Set up your Galaxy Tab for OTG + charging</div>
+                    <div className="text-sm text-gray-600">Get the OTG hub/cable working so the tablet can charge while connected to USB devices. See <strong>Step 2</strong> below.</div>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">5</div>
+                  <div>
+                    <div className="font-medium text-gray-800">Install BeamKlipper on the tablet</div>
+                    <div className="text-sm text-gray-600">Download the APK from GitHub, install it, grant permissions. See <strong>Step 3</strong> below.</div>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">6</div>
+                  <div>
+                    <div className="font-medium text-gray-800">Connect printer to tablet via USB, add printer config</div>
+                    <div className="text-sm text-gray-600">Plug in the printer, start BeamKlipper, load a community printer.cfg. See <strong>Step 6</strong> below.</div>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">7</div>
+                  <div>
+                    <div className="font-medium text-gray-800">Test movements and calibrate!</div>
+                    <div className="text-sm text-gray-600">Home the printer, test each axis, PID tune, E-steps calibrate. See <strong>Step 7</strong> below.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* What to do RIGHT NOW */}
+            <div className="mt-5 bg-emerald-600 text-white rounded-xl p-5">
+              <h3 className="font-bold text-lg mb-2">👉 What to do RIGHT NOW:</h3>
+              <ol className="space-y-2 text-sm">
+                <li className="flex gap-2">
+                  <span className="font-bold">1.</span>
+                  <span>If you don't have an ST-Link V2 yet → <strong>order one now</strong> (AliExpress: search "ST-Link V2", ~$3-5, ships in 1-2 weeks). Or buy from Amazon for faster delivery.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="font-bold">2.</span>
+                  <span>If you don't have a microUSB OTG adapter → <strong>order one now</strong> (search "micro USB OTG adapter"). Also get a powered OTG hub if you want charging during prints.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="font-bold">3.</span>
+                  <span>While waiting for hardware → <strong>open your printer</strong> and identify the mainboard chip (STM32F103 vs GD32F303) and locate the SWD pins.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="font-bold">4.</span>
+                  <span>On your tablet → <strong>download BeamKlipper APK</strong> from <a href="https://github.com/utkabobr/BeamKlipper/releases/latest" className="underline font-bold" target="_blank" rel="noopener">github.com/utkabobr/BeamKlipper/releases</a> and install it now so it's ready.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="font-bold">5.</span>
+                  <span>Download the prebuilt firmware from <a href="https://github.com/utkabobr/klipper/tree/prebuilt-v0.12.0" className="underline font-bold" target="_blank" rel="noopener">utkabobr/klipper prebuilt</a> and save it to your PC — you'll need it for the ST-Link flash.</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+
           {/* Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
