@@ -926,6 +926,503 @@ export default function App() {
             </div>
           </div>
 
+          {/* COMPLETE STEP-BY-STEP WALKTHROUGH */}
+          <div className="bg-white border-2 border-gray-300 rounded-2xl p-6 mb-8 shadow-lg">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl text-white">📋</div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Complete Step-by-Step Walkthrough</h2>
+                <p className="text-gray-600 text-sm">Follow these steps in order. Each step builds on the previous one.</p>
+              </div>
+            </div>
+
+            {/* PHASE 1 */}
+            <div className="mb-8">
+              <h3 className="text-xl font-bold text-indigo-700 mb-4 flex items-center gap-2">
+                <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm">PHASE 1</span>
+                Order Hardware (Do This Today)
+              </h3>
+              <div className="bg-indigo-50 rounded-xl p-5 space-y-3">
+                <p className="text-gray-700 font-medium">Order these items from AliExpress or Amazon:</p>
+                <div className="space-y-2">
+                  <div className="flex items-start gap-3 bg-white p-3 rounded-lg">
+                    <span className="text-2xl">🔧</span>
+                    <div>
+                      <div className="font-bold text-gray-800">ST-Link V2 Programmer</div>
+                      <div className="text-sm text-gray-600">Search: "ST-Link V2 mini" | Cost: ~$3-5 | Get clone version, works fine</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 bg-white p-3 rounded-lg">
+                    <span className="text-2xl">🔌</span>
+                    <div>
+                      <div className="font-bold text-gray-800">MicroUSB OTG Adapter</div>
+                      <div className="text-sm text-gray-600">Search: "micro USB OTG adapter female" | Cost: ~$2-3 | Male microUSB to female USB-A</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 bg-white p-3 rounded-lg">
+                    <span className="text-2xl">⚡</span>
+                    <div>
+                      <div className="font-bold text-gray-800">Powered USB OTG Hub</div>
+                      <div className="text-sm text-gray-600">Search: "micro USB OTG hub with charging" | Cost: ~$8-15 | Must support simultaneous charging + data</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 bg-white p-3 rounded-lg">
+                    <span className="text-2xl">🔗</span>
+                    <div>
+                      <div className="font-bold text-gray-800">Jumper Wires (Female-to-Female)</div>
+                      <div className="text-sm text-gray-600">Search: "dupont wire female to female" | Cost: ~$2 | Get 5-10 wires, 10cm length</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 bg-white p-3 rounded-lg">
+                    <span className="text-2xl">📡</span>
+                    <div>
+                      <div className="font-bold text-gray-800">USB Data Cable (A to B or A to C)</div>
+                      <div className="text-sm text-gray-600">Check what port your printer has | Must be DATA cable, not charge-only | You probably have one</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+                  <p className="text-sm text-yellow-800"><strong>💡 Tip:</strong> Total cost: ~$15-25. AliExpress is cheapest but takes 1-3 weeks. Amazon is faster but more expensive.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* PHASE 2 */}
+            <div className="mb-8">
+              <h3 className="text-xl font-bold text-purple-700 mb-4 flex items-center gap-2">
+                <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">PHASE 2</span>
+                Prepare Your Tablet (While Waiting for Hardware)
+              </h3>
+              <div className="bg-purple-50 rounded-xl p-5 space-y-4">
+                <div className="space-y-3">
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-purple-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">1</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Install Termux from F-Droid (NOT Play Store!)</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Go to <a href="https://f-droid.org/packages/com.termux/" className="text-blue-600 underline" target="_blank" rel="noopener">f-droid.org/packages/com.termux</a> on your tablet browser and download the APK. Install it.
+                        </div>
+                        <div className="text-xs text-red-600 mt-1">⚠️ The Play Store version is outdated and broken!</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-purple-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">2</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Install Termux Add-ons</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          From F-Droid, also install:
+                          <ul className="list-disc list-inside mt-1 space-y-1">
+                            <li><strong>Termux:API</strong> — for hardware access</li>
+                            <li><strong>Termux:Boot</strong> — for autostart on tablet boot</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-purple-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">3</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Open Termux and Run Initial Setup</div>
+                        <div className="text-sm text-gray-600 mt-1">Type these commands exactly (press Enter after each line):</div>
+                        <div className="bg-gray-900 text-green-400 p-3 rounded mt-2 font-mono text-xs overflow-x-auto">
+                          <div>pkg update && pkg upgrade -y</div>
+                          <div className="mt-1">termux-setup-storage</div>
+                          <div className="text-gray-500 mt-1"># (tap "Allow" when prompted for storage access)</div>
+                          <div className="mt-1">pkg install -y proot-distro git wget curl nano</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-purple-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">4</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Install Debian Linux Environment</div>
+                        <div className="text-sm text-gray-600 mt-1">In Termux, type:</div>
+                        <div className="bg-gray-900 text-green-400 p-3 rounded mt-2 font-mono text-xs overflow-x-auto">
+                          <div>proot-distro install debian</div>
+                          <div className="mt-1">proot-distro login debian</div>
+                          <div className="text-gray-500 mt-1"># (you're now inside Debian!)</div>
+                          <div className="mt-1">apt update && apt upgrade -y</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-purple-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">5</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Open Your Printer and Find SWD Pins</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          <ol className="list-decimal list-inside space-y-1">
+                            <li>Turn off and unplug the printer</li>
+                            <li>Remove the bottom cover (4-6 screws)</li>
+                            <li>Locate the mainboard (CR4NS200320C14)</li>
+                            <li>Find the large chip labeled "GD303RET6" or "GD32"</li>
+                            <li>Look near it for a small 4-pin header labeled "SWD" or "DEBUG"</li>
+                            <li>If no header, look for test pads (small copper circles) labeled SWDIO, SWCLK, GND, 3.3V</li>
+                            <li>Take a photo for reference</li>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-purple-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">6</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Configure Tablet Settings</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          <ol className="list-decimal list-inside space-y-1">
+                            <li>Go to <strong>Settings → About tablet</strong></li>
+                            <li>Tap <strong>Build number</strong> 7 times to enable Developer Options</li>
+                            <li>Go to <strong>Settings → Developer options</strong></li>
+                            <li>Enable <strong>USB debugging</strong></li>
+                            <li>Enable <strong>Stay awake</strong> (screen won't sleep while charging)</li>
+                            <li>Go to <strong>Settings → Apps → Termux → Battery</strong></li>
+                            <li>Select <strong>"Don't optimize"</strong> or <strong>"Allow background activity"</strong></li>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* PHASE 3 */}
+            <div className="mb-8">
+              <h3 className="text-xl font-bold text-green-700 mb-4 flex items-center gap-2">
+                <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">PHASE 3</span>
+                Flash Firmware (When ST-Link Arrives)
+              </h3>
+              <div className="bg-green-50 rounded-xl p-5 space-y-4">
+                <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4 mb-4">
+                  <p className="text-sm text-yellow-900"><strong>⚠️ Important:</strong> You need a Windows/Mac/Linux PC for this step. Borrow one if needed. You only do this once.</p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">1</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Download Firmware on PC</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Go to <a href="https://github.com/0xD34D/klipper_ender3_v3_se" className="text-blue-600 underline" target="_blank" rel="noopener">github.com/0xD34D/klipper_ender3_v3_se</a> and download the latest release, or build your own (see below).
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">Or use the SD card method instead (skip to Step 5 below)</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">2</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Install STM32CubeProgrammer on PC</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Download from ST's website: <a href="https://www.st.com/en/development-tools/stm32cubeprog.html" className="text-blue-600 underline" target="_blank" rel="noopener">stm32cubeprog</a> (requires free ST account)
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">3</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Connect ST-Link to Printer Board</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Use jumper wires to connect:
+                          <div className="bg-gray-100 p-2 rounded mt-2 text-xs font-mono">
+                            <div>ST-Link 3.3V → Board 3.3V</div>
+                            <div>ST-Link SWDIO → Board SWDIO</div>
+                            <div>ST-Link GND → Board GND</div>
+                            <div>ST-Link SWCLK → Board SWCLK</div>
+                          </div>
+                        </div>
+                        <div className="text-xs text-red-600 mt-2">⚠️ DO NOT connect 5V! Only use 3.3V!</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">4</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Flash Firmware</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          <ol className="list-decimal list-inside space-y-1">
+                            <li>Connect ST-Link to PC via USB</li>
+                            <li>Power on the printer (keep ST-Link connected)</li>
+                            <li>Open STM32CubeProgrammer</li>
+                            <li>Select <strong>ST-LINK</strong> as connection type</li>
+                            <li>Click <strong>Connect</strong></li>
+                            <li>Go to <strong>Erasing & Programming</strong> tab</li>
+                            <li>Browse to your <strong>klipper.bin</strong> file</li>
+                            <li>Set start address: <strong>0x08000000</strong></li>
+                            <li>Check <strong>"Run after programming"</strong></li>
+                            <li>Click <strong>Start Programming</strong></li>
+                            <li>Wait for completion (1-2 minutes)</li>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">5</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Alternative: SD Card Method (No PC Needed)</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          If you can't find SWD pins or don't have a PC:
+                          <ol className="list-decimal list-inside space-y-1 mt-2">
+                            <li>Format microSD as <strong>FAT32</strong> with <strong>4096-byte</strong> cluster size</li>
+                            <li>Copy <strong>klipper.bin</strong> to SD card, rename to <strong>firmware.bin</strong></li>
+                            <li>Power off printer</li>
+                            <li>Insert SD card</li>
+                            <li>Power on and wait 2-3 minutes</li>
+                            <li>Power off, remove SD card, power on again</li>
+                          </ol>
+                        </div>
+                        <div className="text-xs text-gray-500 mt-2">⚠️ SD card method can be unreliable on CR4NS200320C14. May need multiple attempts.</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-green-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">6</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Disconnect ST-Link</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          After successful flash, disconnect ST-Link wires and reassemble the printer.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* PHASE 4 */}
+            <div className="mb-8">
+              <h3 className="text-xl font-bold text-orange-700 mb-4 flex items-center gap-2">
+                <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm">PHASE 4</span>
+                Install Klipper on Tablet (When All Hardware Arrives)
+              </h3>
+              <div className="bg-orange-50 rounded-xl p-5 space-y-4">
+                <div className="space-y-3">
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">1</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Continue Debian Setup in Termux</div>
+                        <div className="text-sm text-gray-600 mt-1">In Termux, login to Debian and install dependencies:</div>
+                        <div className="bg-gray-900 text-green-400 p-3 rounded mt-2 font-mono text-xs overflow-x-auto">
+                          <div>proot-distro login debian</div>
+                          <div className="mt-1">apt install -y git python3 python3-pip python3-dev \</div>
+                          <div>&nbsp;&nbsp;virtualenv libconfig-dev libdbus-1-dev \</div>
+                          <div>&nbsp;&nbsp;libegl-dev libgl-dev libxcb-dev \</div>
+                          <div>&nbsp;&nbsp;libwayland-dev wayland-protocols \</div>
+                          <div>&nbsp;&nbsp;cmake build-essential nginx sudo wget curl nano</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">2</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Install Klipper via KIAUH</div>
+                        <div className="text-sm text-gray-600 mt-1">In Debian, run:</div>
+                        <div className="bg-gray-900 text-green-400 p-3 rounded mt-2 font-mono text-xs overflow-x-auto">
+                          <div>cd ~</div>
+                          <div>git clone https://github.com/dw-0/KIAUH.git</div>
+                          <div>cd KIAUH</div>
+                          <div>./kiauh.sh</div>
+                          <div className="mt-2 text-gray-500"># From the menu:</div>
+                          <div># 1. Install Klipper</div>
+                          <div># 2. Install Moonraker</div>
+                          <div># 3. Install Mainsail (or Fluidd)</div>
+                          <div># Exit when done</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">3</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Set Up OTG + Charging</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Connect your powered OTG hub to the tablet, plug in the charger, then connect the printer USB cable to the hub.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">4</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Configure USB Access</div>
+                        <div className="text-sm text-gray-600 mt-1">Exit Debian, then login with USB binding:</div>
+                        <div className="bg-gray-900 text-green-400 p-3 rounded mt-2 font-mono text-xs overflow-x-auto">
+                          <div className="text-gray-500"># In Termux (outside Debian):</div>
+                          <div>ls /dev/bus/usb/*</div>
+                          <div className="mt-1">proot-distro login debian --bind /dev/bus/usb:/dev/bus/usb</div>
+                          <div className="mt-2 text-gray-500"># Inside Debian:</div>
+                          <div>ls /dev/ttyUSB* /dev/ttyACM* 2&gt;/dev/null</div>
+                          <div>sudo chmod 777 /dev/ttyUSB0</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">5</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Configure printer.cfg</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Download a community config from <a href="https://github.com/bootuz-dinamon/ender3-v3-se-full-klipper" className="text-blue-600 underline" target="_blank" rel="noopener">here</a> and edit the [mcu] section:
+                        </div>
+                        <div className="bg-gray-900 text-green-400 p-3 rounded mt-2 font-mono text-xs overflow-x-auto">
+                          <div>[mcu]</div>
+                          <div>serial: /dev/ttyUSB0</div>
+                          <div>restart_method: command</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">6</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Start Services</div>
+                        <div className="text-sm text-gray-600 mt-1">In Debian, run:</div>
+                        <div className="bg-gray-900 text-green-400 p-3 rounded mt-2 font-mono text-xs overflow-x-auto">
+                          <div>sudo systemctl start klipper</div>
+                          <div>sudo systemctl start moonraker</div>
+                          <div>sudo systemctl start nginx</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">7</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Access Web Interface</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Find your tablet's IP (Settings → WiFi → tap network), then open browser and go to:
+                          <div className="bg-gray-100 p-2 rounded mt-2 font-mono text-xs">
+                            http://&lt;tablet-ip&gt;/
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* PHASE 5 */}
+            <div className="mb-8">
+              <h3 className="text-xl font-bold text-blue-700 mb-4 flex items-center gap-2">
+                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">PHASE 5</span>
+                Test and Calibrate
+              </h3>
+              <div className="bg-blue-50 rounded-xl p-5 space-y-4">
+                <div className="space-y-3">
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-blue-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">1</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Test Connection</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          In the web interface, check that status shows <strong>"Ready"</strong>. If not, check the troubleshooting section below.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-blue-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">2</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Test Movements</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          In the console, run:
+                          <div className="bg-gray-900 text-green-400 p-3 rounded mt-2 font-mono text-xs overflow-x-auto">
+                            <div>G28</div>
+                            <div>G1 X10 F3000</div>
+                            <div>G1 Y10 F3000</div>
+                            <div>G1 Z1 F300</div>
+                          </div>
+                          <div className="text-xs text-red-600 mt-2">⚠️ Keep hand near power switch! Stop if motors move wrong direction!</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-blue-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">3</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Calibrate</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Run these calibrations:
+                          <ul className="list-disc list-inside mt-2 space-y-1 text-xs">
+                            <li><strong>PID tune hotend:</strong> PID_CALIBRATE HEATER=extruder TARGET=200</li>
+                            <li><strong>PID tune bed:</strong> PID_CALIBRATE HEATER=heater_bed TARGET=60</li>
+                            <li><strong>E-steps:</strong> Extrude 100mm, measure actual vs requested</li>
+                            <li><strong>Bed mesh:</strong> BED_MESH_CALIBRATE</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-blue-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0">4</span>
+                      <div>
+                        <div className="font-bold text-gray-800">Print a Test!</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Upload a small test print (like a 20mm calibration cube) and start printing. Monitor via the web interface on your tablet!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* SUCCESS MESSAGE */}
+            <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl p-6 text-center">
+              <div className="text-4xl mb-3">🎉</div>
+              <h3 className="text-2xl font-bold mb-2">You're Done!</h3>
+              <p className="text-green-100">Your Ender 3 V3 SE is now running Klipper with your Galaxy Tab as the host!</p>
+              <p className="text-sm text-green-200 mt-3">Access the web interface anytime at <code className="bg-white/20 px-2 py-1 rounded">http://&lt;tablet-ip&gt;/</code></p>
+            </div>
+          </div>
+
           {/* START HERE - Action Plan */}
           <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-300 rounded-2xl p-6 mb-8 shadow-md">
             <div className="flex items-center gap-3 mb-4">
